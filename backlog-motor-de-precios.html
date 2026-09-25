@@ -1,0 +1,952 @@
+<!doctype html><html lang='es'><head><meta charset='utf-8'>
+<meta name='robots' content='noindex,nofollow'>
+<title>Motor de Precios — Backlog del MVP</title>
+<style>
+body{font-family:-apple-system,'Salesforce Sans',Segoe UI,Arial,sans-serif;margin:0;background:#f4f6f9;color:#181818}
+header{background:#032D60;color:#fff;padding:18px 28px}
+header h1{margin:0;font-size:22px} header p{margin:6px 0 0;opacity:.85}
+.kpi{display:flex;gap:14px;padding:16px 28px;flex-wrap:wrap}
+.k{background:#fff;border-radius:8px;padding:10px 16px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.k b{display:block;font-size:22px;color:#032D60}
+.bar{padding:0 28px 10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.f{background:#fff;border:2px solid;border-radius:16px;padding:5px 12px;font-weight:600;cursor:pointer}
+.f.off{opacity:.35} .t{margin-left:10px}
+main{padding:0 28px 40px}
+.ep{background:#fff;border-radius:8px;margin:14px 0;padding:10px 14px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.eh{display:flex;gap:10px;align-items:center;border-left:6px solid;padding-left:10px;font-size:17px;font-weight:700}
+.ord{background:#032D60;color:#fff;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+.cnt{margin-left:auto;font-size:13px;color:#555;font-weight:500}
+.ed{margin:6px 0 2px 16px;color:#444} .ep-meta{margin:0 0 8px 16px;font-size:12px;color:#666}
+.st{border-top:1px solid #e5e5e5}
+.row{display:flex;gap:12px;align-items:center;padding:8px 6px;cursor:pointer}
+.row:hover{background:#f3f7fc}
+.key{font-weight:700;min-width:84px;font-family:ui-monospace,Menlo,monospace}
+.sum{flex:1}
+.chips{display:flex;gap:4px;flex-wrap:wrap}
+.lb{font-size:11px;background:#eef1f6;border-radius:4px;padding:2px 6px;color:#333}
+.lb-abierto-refinamiento{background:#fef1c7} .lb-con-codigo{background:#e8dcfb} .lb-revisar-con-equipo{background:#fde2e1}
+.status{font-size:11px;font-weight:700;background:#dfe1e6;color:#42526e;border-radius:3px;padding:3px 7px}
+.det{display:none;padding:4px 14px 14px 100px} .st.on .det{display:block}
+.meta{color:#666;font-size:12px} .us{font-style:italic}
+h4{margin:14px 0 6px;color:#032D60}
+.sc{background:#f8f9fb;border-left:3px solid #c9d3e0;padding:6px 10px;margin:6px 0}
+.muted{color:#888} ul{margin:4px 0 0 18px;padding:0} li{margin:3px 0}
+.es{margin:0 0 8px 16px}
+.eb{background:#eef4ff;border:1px solid #b8cff5;color:#032D60;border-radius:6px;padding:4px 10px;font-weight:600;cursor:pointer}
+.esd{display:none;background:#f8fafd;border:1px solid #dde6f3;border-radius:8px;padding:8px 14px;margin-top:6px} .esd.on{display:block}
+.esd p{margin:6px 0} .esd .lb{margin:2px 3px 2px 0;display:inline-block} details{margin:6px 0}
+.lb-prop{background:#fde2e1;border:1px dashed #BA0517}
+</style></head><body>
+<header><h1>Motor de Precios — Backlog del MVP (reemplazo de RAMP)</h1>
+<p>Story map ADP · corte 24/09/2026 · contra el repositorio oficial @ 6022bfd · todas las historias en Backlog, con puntos en revisión · <a href='story-map.html' style='color:#fff;font-weight:600'>ver el story map →</a></p></header>
+<div class='kpi'>
+<div class='k'><b>5</b>dominios</div><div class='k'><b>9</b>épicas</div><div class='k'><b>45</b>historias</div>
+<div class='k'><b>5</b>con tarea de código</div><div class='k'><b>33</b>con algo abierto para refinar</div>
+</div>
+<div class='bar'><button class='f' data-dom='MAE' style='border-color:#0176D3;color:#0176D3'>MAE · Maestros</button><button class='f' data-dom='PAR' style='border-color:#2E844A;color:#2E844A'>PAR · Parámetros</button><button class='f' data-dom='CAL' style='border-color:#9050E9;color:#9050E9'>CAL · Cálculo</button><button class='f' data-dom='GOB' style='border-color:#DD7A01;color:#DD7A01'>GOB · Gobierno</button><button class='f' data-dom='SAL' style='border-color:#BA0517;color:#BA0517'>SAL · Salida</button>
+<label class='t'><input type='checkbox' id='fo'> sólo con algo abierto</label>
+<label class='t'><input type='checkbox' id='fc'> sólo con código</label>
+<button class='f' id='ex' style='border-color:#032D60;color:#032D60'>abrir / cerrar todas</button></div>
+<main>
+<section class='ep' data-dom='MAE'>
+  <div class='eh' style='border-left-color:#0176D3'>
+    <span class='ord'>1</span>
+    <span class='key' style='color:#0176D3'>MAE-01</span>
+    <span class='sum'>Identidad, visibilidad y maestro vivo</span>
+    <span class='cnt'>8 historias</span>
+  </div>
+  <p class='ed'>Aprobadores que son usuarios, un precio que sólo ve Pricing, y un maestro que manda SAP con la sucesión de operadores fechada.</p>
+  <p class='ep-meta'><b>Plataforma:</b> Salesforce (Account, Location, AssociatedLocation, permission sets) y MuleSoft (ingesta IN04 / IN05). · <b>FRs:</b> FR-1, FR-2, FR-3, FR-4, FR-5, FR-6, FR-7, FR-8, FR-9, FR-29, FR-31</p>
+  
+<div class='es'>
+  <button class='eb' onclick='this.nextElementSibling.classList.toggle("on")'>Especificación de la épica ▸</button>
+  <div class='esd'>
+    <p><b>Notas:</b> Org única: Account y Location son del core de PAE, compartidos con otros cinco dominios. MAE-01-01 y 01-02 van antes que cualquier objeto de precio.</p>
+    <p><b>Componentes de plataforma:</b> <span class='lb'>Circuito de aprobación</span><span class='lb'>Flow</span><span class='lb'>Permission sets y grupos</span><span class='lb'>Custom permission</span><span class='lb'>Reglas de validación</span><span class='lb'>Sharing y OWD</span><span class='lb'>Colas</span><span class='lb'>List views</span><span class='lb'>MuleSoft, del lado de la integración</span></p>
+    <p><b>Objetos del diseño:</b> <span class='lb'>Account</span><span class='lb'>AssociatedLocation</span><span class='lb'>IntegrationBatchResult__c</span><span class='lb'>Location</span><span class='lb'>PriceCondition__c</span><span class='lb'>SalesArea__c</span></p>
+    <p><b>Permisos del diseño:</b> <span class='lb'>PAE_PRC_MuleSoftIntegration</span><span class='lb'>PAE_PRC_PricingAnalyst</span><span class='lb'>PAE_PRC_PricingApprover</span><span class='lb'>PAE_PRC_PricingConfigAdmin</span></p><p><b>Propuesto, no está en el diseño —a decidir con Antonio—:</b> <span class='lb lb-prop'>Municipality__c</span><span class='lb lb-prop'>PAE_PRC_AprobacionImpuestos</span><span class='lb lb-prop'>PAE_PRC_Impuestos</span><span class='lb lb-prop'>PAE_PRC_PricingExecutive</span><span class='lb lb-prop'>PAE_PRC_TaxOwner</span></p>
+    <p><b>Tareas de código (0):</b></p><p>Ninguna: la épica es sólo configuración.</p>
+    <details><summary><b>Tareas de configuración (23)</b></summary><ul><li><b>MAE-01-01</b> — Un Permission Set Group por persona —PAE_PRC_PricingAnalyst, PAE_PRC_PricingApprover, PAE_PRC_PricingExecutive, PAE_PRC_TaxOwner, PAE_PRC_PricingConfigAdmin, PAE_PRC_MuleSoftIntegration—, cada uno con su terna homónima: el grupo, el permission set PAE_PRC_User_[Persona] y el custom permission del mismo nombre (energy-012).</li><li><b>MAE-01-01</b> — Grupos públicos de solicitantes y de aprobación por nivel, y una cola por nivel con el grupo como miembro. El rol no rutea: un usuario tiene un solo rol, y la línea ejecutiva ya tiene el suyo en otra jerarquía de la org.</li><li><b>MAE-01-01</b> — Alta de aprobadores y suplentes; delegación estándar de la plataforma.</li><li><b>MAE-01-02</b> — OWD Private en los objetos de precio, con acceso por jerarquía apagado en los nueve objetos propios: la jerarquía ejecutiva de otro dominio no ve el precio.</li><li><b>MAE-01-02</b> — Un permission set atómico por objeto y nivel (PAE_PRC_Object_[Objeto]_Read|CER) y el FLS por campo de handoff/matriz-accesos-objetos.csv y handoff/matriz-accesos-campos.csv.</li><li><b>MAE-01-02</b> — 50 de los 164 campos son obligatorios y no admiten FLS, entre ellos el precio y el estado: los protege el permiso de objeto, y por eso el configurador no tiene acceso a los objetos con precio.</li><li><b>MAE-01-02</b> — Regla de compartir que da lectura y escritura sobre las zonas a los solicitantes: el precio, la política y las referencias son detalle de la zona, y sin esa regla el analista no puede editarlos.</li><li><b>MAE-01-02</b> — Ningún campo de precio en Account, Location ni AssociatedLocation. Dos vistas, detalle y resumen; el componente de resumen se muestra por el custom permission de la línea ejecutiva.</li><li><b>MAE-01-03</b> — Account con external id KUNNR y Location con PBL, los dos texto de 10.</li><li><b>MAE-01-03</b> — AssociatedLocation con ActiveFrom / ActiveTo (DateTime) y el tipo de operación del intervalo. La sucesión es registro nuevo: la plataforma no permite reasignar (energy-005), así que no hace falta lógica propia.</li><li><b>MAE-01-03</b> — SalesArea__c como objeto propio.</li><li><b>MAE-01-03</b> — Org única: sin master-detail hacia Location y sin campos de precio en AssociatedLocation. Son objetos del core de PAE, y un borrado en cascada sería ajeno.</li><li><b>MAE-01-04</b> — IntegrationBatchResult__c con Direction__c de entrada: interfaz, secuencia, checksum y los cuatro conteos (declarados, leídos, aceptados, rechazados). Es el mismo objeto genérico que usa SAL-01-05.</li><li><b>MAE-01-04</b> — List views de primera hora; catálogo de los ocho tipos de error.</li><li><b>MAE-01-05</b> — Usuario de integración acotado, según la política de PAE (Named Credential / OAuth).</li><li><b>MAE-01-05</b> — Upsert idempotente por external id: reprocesar pisa. Baja lógica como campo de estado.</li><li><b>MAE-01-06</b> — Tipo de operación en el vínculo fechado (energy-015), como lista restringida.</li><li><b>MAE-01-06</b> — Propia / tercero como fórmula.</li><li><b>MAE-01-06</b> — Control de dominio en la ingesta o en una regla de validación: LocationType no es una lista restringida, y la plataforma aceptaría un valor inválido sin error (energy-005).</li><li><b>MAE-01-07</b> — Municipality__c con tipo de tasa (5 variantes) y alícuota por grado, con vigencia.</li><li><b>MAE-01-07</b> — Vínculo estación–municipio mantenido por Pricing; carga manual de los tres campos que el IN05 no trae.</li><li><b>MAE-01-08</b> — Circuito de aprobación de PriceCondition__c: si el tipo de componente es impositivo, el paso va a la cola PAE_PRC_AprobacionImpuestos; si no, a la de nivel 1. Al aprobar, un flujo llama a refreshDecisionTable (energy-002).</li><li><b>MAE-01-08</b> — Grupo PAE_PRC_TaxOwner con acceso de edición a PriceCondition__c, y regla de compartir por criterio —área responsable = Impuestos— hacia el grupo público PAE_PRC_Impuestos.</li></ul></details>
+    <p><b>Abierto para refinamiento:</b> 6 de 8 historias.</p>
+  </div>
+</div>
+  
+<div class='st' id='MAE-01-01' data-dom='MAE' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#0176D3'>MAE-01-01</span>
+    <span class='sum'>Identidad de aprobadores RAE</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Jefe de Precios · Reuso: Primary · Flujo: PAE_TOBE_Ciclo_Precio</p>
+    <p class='us'>Como responsable de Pricing,<br>quiero que cada aprobador y suplente de la RAE exista como usuario de Salesforce,<br>para que ninguna aprobación viva en un correo (FR-1).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> la org productiva de PAE, que es única y compartida</div><div><b>Cuando</b> se carga la nómina de aprobadores y suplentes de la RAE</div><div><b>Entonces</b> cada persona es un usuario activo</div><div><b>Y</b> ningún paso de aprobación apunta a alguien que no está en la org</div></div><div class='sc'><div><b>Dado</b> un cambio que requiere aprobación</div><div><b>Cuando</b> el circuito busca a quién mandarlo</div><div><b>Entonces</b> encuentra un usuario, nunca un buzón de correo</div><div><b>Y</b> el suplente también es un usuario</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Un Permission Set Group por persona —PAE_PRC_PricingAnalyst, PAE_PRC_PricingApprover, PAE_PRC_PricingExecutive, PAE_PRC_TaxOwner, PAE_PRC_PricingConfigAdmin, PAE_PRC_MuleSoftIntegration—, cada uno con su terna homónima: el grupo, el permission set PAE_PRC_User_[Persona] y el custom permission del mismo nombre (energy-012).</li><li>[Configuration] Grupos públicos de solicitantes y de aprobación por nivel, y una cola por nivel con el grupo como miembro. El rol no rutea: un usuario tiene un solo rol, y la línea ejecutiva ya tiene el suyo en otra jerarquía de la org.</li><li>[Configuration] Alta de aprobadores y suplentes; delegación estándar de la plataforma.</li><li>Detalle y ejemplo paso a paso: handoff/especificacion-accesos-y-aprobaciones.md §1 a §4.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A47 — falta el detalle de roles (cuántos, qué ve y qué modifica cada uno) y la integración con el directorio corporativo. Sin eso la delegación no es trazable. Decide PAE.</li><li>Nombres propuestos: PAE_PRC_PricingExecutive, PAE_PRC_TaxOwner, y el prefijo PAE_PRC_ para grupos públicos y colas, que NAMING.md no cubre.</li></ul>
+  </div>
+</div>
+<div class='st' id='MAE-01-02' data-dom='MAE' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#0176D3'>MAE-01-02</span>
+    <span class='sum'>Visibilidad del precio</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_TOBE_Ciclo_Precio</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que el PSS y los componentes de costo sólo los vean Pricing y los aprobadores,<br>para que el maestro se pueda compartir con los otros dominios sin exponer precio (FR-2, FR-3).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un usuario de otro dominio que trabaja con cuentas y estaciones</div><div><b>Cuando</b> abre una cuenta, una estación o su vínculo</div><div><b>Entonces</b> no ve PSS, componentes de costo ni impuestos de cálculo</div><div><b>Y</b> una búsqueda sobre los objetos de precio no le devuelve nada</div></div><div class='sc'><div><b>Dado</b> un aprobador de la RAE</div><div><b>Cuando</b> tiene que aprobar un cambio</div><div><b>Entonces</b> puede leer el precio que aprueba</div></div><div class='sc'><div><b>Dado</b> Pricing o un aprobador</div><div><b>Cuando</b> consulta un cambio</div><div><b>Entonces</b> tiene dos vistas —el detalle y el resumen—, y no una pantalla distinta por rol (A21)</div></div><div class='sc'><div><b>Dado</b> un ejecutivo de otro dominio, ubicado arriba en la jerarquía de roles de la org</div><div><b>Cuando</b> busca precios</div><div><b>Entonces</b> no ve ninguno</div></div><div class='sc'><div><b>Dado</b> el configurador, que mantiene las zonas</div><div><b>Cuando</b> abre una zona</div><div><b>Entonces</b> no ve el precio de esa zona</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] OWD Private en los objetos de precio, con acceso por jerarquía apagado en los nueve objetos propios: la jerarquía ejecutiva de otro dominio no ve el precio.</li><li>[Configuration] Un permission set atómico por objeto y nivel (PAE_PRC_Object_[Objeto]_Read|CER) y el FLS por campo de handoff/matriz-accesos-objetos.csv y handoff/matriz-accesos-campos.csv.</li><li>[Configuration] 50 de los 164 campos son obligatorios y no admiten FLS, entre ellos el precio y el estado: los protege el permiso de objeto, y por eso el configurador no tiene acceso a los objetos con precio.</li><li>[Configuration] Regla de compartir que da lectura y escritura sobre las zonas a los solicitantes: el precio, la política y las referencias son detalle de la zona, y sin esa regla el analista no puede editarlos.</li><li>[Configuration] Ningún campo de precio en Account, Location ni AssociatedLocation. Dos vistas, detalle y resumen; el componente de resumen se muestra por el custom permission de la línea ejecutiva.</li><li>Detalle: handoff/especificacion-accesos-y-aprobaciones.md §5 y §7.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>La lista de confidencialidad la define el negocio. El diseño asume que ven precio el analista, el jefe, la línea ejecutiva e Impuestos, éste sólo en los componentes impositivos.</li><li>El OWD de Location, AssociatedLocation, AccountAccountRelation y PartyRoleRelation, que la tabla de HIGH-LEVEL-CORE no fija.</li></ul>
+  </div>
+</div>
+<div class='st' id='MAE-01-03' data-dom='MAE' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#0176D3'>MAE-01-03</span>
+    <span class='sum'>Aterrizaje del maestro con la sucesión fechada</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: System · Reuso: Primary · Flujo: PAE_Proceso_Precios_ASIS_v2</p>
+    <p class='us'>Como usuario de integración,<br>quiero aterrizar cuenta, estación y su vínculo fechado,<br>para que la sucesión de operadores no sobrescriba historia (FR-3, FR-4, FR-7, FR-9).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un cliente de SAP</div><div><b>Cuando</b> aterriza</div><div><b>Entonces</b> es una cuenta identificada por su número de cliente de diez posiciones, con los ceros a la izquierda</div></div><div class='sc'><div><b>Dado</b> un punto de entrega (PBL)</div><div><b>Cuando</b> aterriza</div><div><b>Entonces</b> es una estación, no una cuenta, identificada por su PBL de diez posiciones</div></div><div class='sc'><div><b>Dado</b> una estación que cambia de operador</div><div><b>Cuando</b> llega el cambio</div><div><b>Entonces</b> se cierra el vínculo anterior con su fecha de fin y se abre uno nuevo</div><div><b>Y</b> el vínculo viejo no se edita</div></div><div class='sc'><div><b>Dado</b> un recálculo de una fecha pasada</div><div><b>Cuando</b> en esa fecha operaba otro</div><div><b>Entonces</b> se usan el vínculo y el tipo de operación de ese intervalo</div></div><div class='sc'><div><b>Dado</b> un registro del maestro que deja de aplicar</div><div><b>Cuando</b> se da de baja</div><div><b>Entonces</b> se inhabilita; no se borra</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Account con external id KUNNR y Location con PBL, los dos texto de 10.</li><li>[Configuration] AssociatedLocation con ActiveFrom / ActiveTo (DateTime) y el tipo de operación del intervalo. La sucesión es registro nuevo: la plataforma no permite reasignar (energy-005), así que no hace falta lógica propia.</li><li>[Configuration] SalesArea__c como objeto propio.</li><li>[Configuration] Org única: sin master-detail hacia Location y sin campos de precio en AssociatedLocation. Son objetos del core de PAE, y un borrado en cascada sería ajeno.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>D50 — las ETL escriben objetos que mueven otros cinco dominios. Hace falta un contrato de esquema con el dueño del dato.</li><li>A56 — el vocabulario de clases de lugar (discriminador de sitio).</li><li>A52 — tres atributos del PBL que el maestro trae y nadie mapeó: entran al modelo o se descartan por escrito.</li><li>B16 — los valores del tipo de relación del maestro; sin ellos no se puede descartar un vínculo que no sea de operación.</li><li>B12 — razón social o nombre de fantasía en la cuenta.</li><li>A38 — qué campos del maestro se editan en Salesforce, y quién.</li></ul>
+  </div>
+</div>
+<div class='st' id='MAE-01-04' data-dom='MAE' data-open='0' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#0176D3'>MAE-01-04</span>
+    <span class='sum'>Corrida de interfaz como Trabajo, a primera hora</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_Proceso_Precios_ASIS_v2</p>
+    <p class='us'>Como analista de Pricing,<br>quiero ver cada corrida de interfaz como un Trabajo con sus conteos,<br>para que sepa a primera hora si puedo publicar (FR-29, FR-31).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una corrida de IN04 o IN05</div><div><b>Cuando</b> termina, bien o mal</div><div><b>Entonces</b> hay un Trabajo con interfaz, inicio, fin, estado, registros leídos, total del archivo, control total, registros en espera y usuario, que son los campos del Interface Activity Report de hoy</div></div><div class='sc'><div><b>Dado</b> un archivo rechazado</div><div><b>Cuando</b> Pricing o IT abren el monitor a primera hora</div><div><b>Entonces</b> ven el Trabajo en error con su tipo, de los ocho del catálogo del 17/09</div><div><b>Y</b> el maestro no cambió</div></div><div class='sc'><div><b>Dado</b> el monitor</div><div><b>Cuando</b> lo abre el analista</div><div><b>Entonces</b> es una pantalla de negocio, no una consola de operaciones</div><div><b>Y</b> no muestra los valores de precio enviados, que son de SAL-01-05</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] IntegrationBatchResult__c con Direction__c de entrada: interfaz, secuencia, checksum y los cuatro conteos (declarados, leídos, aceptados, rechazados). Es el mismo objeto genérico que usa SAL-01-05.</li><li>[Configuration] List views de primera hora; catálogo de los ocho tipos de error.</li></ul>
+    <h4>Abierto para refinamiento</h4><p class='muted'>—</p>
+  </div>
+</div>
+<div class='st' id='MAE-01-05' data-dom='MAE' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#0176D3'>MAE-01-05</span>
+    <span class='sum'>Ingesta de deltas IN04 / IN05</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span><span class='lb lb-revisar-con-equipo'>revisar-con-equipo</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: System · Reuso: Derived from MAE-01-03 · cross-pattern · Flujo: PAE_Proceso_Precios_ASIS_v2</p>
+    <p class='us'>Como usuario de integración,<br>quiero consumir los deltas de los maestros de SAP,<br>para que el maestro se mantenga sin alta ni baja manual en Salesforce (FR-5, FR-9).<br>Historia a validar con el equipo antes de darla por cerrada: sus criterios dependen de seis respuestas de PAE.</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un archivo IN04 o IN05 válido</div><div><b>Cuando</b> llega</div><div><b>Entonces</b> el maestro se actualiza sin carga manual</div><div><b>Y</b> queda su Trabajo (MAE-01-04)</div></div><div class='sc'><div><b>Dado</b> un archivo con verificación, secuencia o formato inválido</div><div><b>Cuando</b> llega</div><div><b>Entonces</b> el maestro no cambia</div><div><b>Y</b> el Trabajo queda en error, visible a primera hora</div></div><div class='sc'><div><b>Dado</b> el mismo archivo reprocesado</div><div><b>Cuando</b> corre otra vez</div><div><b>Entonces</b> no duplica cuentas, estaciones ni vínculos</div></div><div class='sc'><div><b>Dado</b> una baja informada por SAP</div><div><b>Cuando</b> llega</div><div><b>Entonces</b> el registro queda inhabilitado y no borrado</div></div><div class='sc'><div><b>Dado</b> la puesta en marcha</div><div><b>Cuando</b> todavía no corren los deltas</div><div><b>Entonces</b> la carga inicial se hace con una foto completa del maestro, y desde ahí los deltas mantienen el alta, la baja y la modificación</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Usuario de integración acotado, según la política de PAE (Named Credential / OAuth).</li><li>[Configuration] Upsert idempotente por external id: reprocesar pisa. Baja lógica como campo de estado.</li><li>Del lado de MuleSoft, no del Core: el parseo del ancho fijo, el control de secuencia y el CRC (INTEGRATION-PATTERNS). Composite Graph admite 500 nodos por payload (D47).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A79 — qué campo marca la baja. Hoy una baja entraría como modificación y el registro quedaría activo.</li><li>A80 · A81 — el orden de llegada entre maestros no está garantizado. ¿La defensa vive en MuleSoft o en el Core? Propuesta: MuleSoft; si cae en el Core, necesita ADR.</li><li>A82 — columnas del archivo de carga inicial, y quién lo genera.</li><li>A83 — cómo se genera la foto completa, y si incluye inactivos.</li><li>A85 — si el orquestador reintenta solo una entrega fallida.</li><li>A78 — horarios de corte en origen frente a los de entrega.</li></ul>
+  </div>
+</div>
+<div class='st' id='MAE-01-06' data-dom='MAE' data-open='0' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#0176D3'>MAE-01-06</span>
+    <span class='sum'>Tipo de operación derivado</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Derived from MAE-01-03 · cross-pattern · Flujo: PAE_Proceso_Precios_ASIS_v2</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que propia y tercero se deriven del tipo de operación,<br>para que ningún flag pueda contradecirlo (FR-6).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una estación con su tipo de operación informado por SAP</div><div><b>Cuando</b> se guarda</div><div><b>Entonces</b> el tipo es uno de tres: CORS, DODO o CODO</div><div><b>Y</b> no existe un campo aparte de propia o tercero que pueda desalinearse</div></div><div class='sc'><div><b>Dado</b> una estación CORS</div><div><b>Cuando</b> se evalúa el canal</div><div><b>Entonces</b> es propia, y cualquier otro valor es tercero</div></div><div class='sc'><div><b>Dado</b> un tipo fuera de la lista o vacío</div><div><b>Cuando</b> aterriza</div><div><b>Entonces</b> no se inventa un valor por defecto</div><div><b>Y</b> queda visible para que Pricing lo corrija</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Tipo de operación en el vínculo fechado (energy-015), como lista restringida.</li><li>[Configuration] Propia / tercero como fórmula.</li><li>[Configuration] Control de dominio en la ingesta o en una regla de validación: LocationType no es una lista restringida, y la plataforma aceptaría un valor inválido sin error (energy-005).</li></ul>
+    <h4>Abierto para refinamiento</h4><p class='muted'>—</p>
+  </div>
+</div>
+<div class='st' id='MAE-01-07' data-dom='MAE' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#0176D3'>MAE-01-07</span>
+    <span class='sum'>Tabla municipal de Pricing</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_TOBE_BuildUp</p>
+    <p class='us'>Como analista de Pricing,<br>quiero mantener municipio, tipo de tasa y alícuota por grado con vigencia,<br>para que se calcule la primera deducción del build up aunque el IN05 no traiga el código (FR-8).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> que el IN05 no trae el código de municipio de la estación, y no lo va a traer</div><div><b>Cuando</b> Pricing vincula estación y municipio</div><div><b>Entonces</b> el vínculo lo mantiene Pricing en Salesforce</div><div><b>Y</b> no se cruza por el nombre de la localidad</div></div><div class='sc'><div><b>Dado</b> un municipio</div><div><b>Cuando</b> se carga su tasa</div><div><b>Entonces</b> tiene tipo de tasa —una de las cinco variantes— y alícuota por grado, con vigencia</div></div><div class='sc'><div><b>Dado</b> un recálculo de una fecha pasada</div><div><b>Cuando</b> la alícuota de entonces era otra</div><div><b>Entonces</b> se usa la que regía entonces</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Municipality__c con tipo de tasa (5 variantes) y alícuota por grado, con vigencia.</li><li>[Configuration] Vínculo estación–municipio mantenido por Pricing; carga manual de los tres campos que el IN05 no trae.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>Municipality__c no está en el diccionario de datos, aunque lo referencian Account, Location y PriceCondition__c.</li><li>Exención de IVA por región (LAND1 / REGIO 2 contra 3). Dueño: SAP SD.</li><li>Indicador de subsidio: ¿viaja en IN04 o es una salida nueva?</li><li>Condición impositiva: ¿atributo de la zona o de la estación?</li></ul>
+  </div>
+</div>
+<div class='st' id='MAE-01-08' data-dom='MAE' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#0176D3'>MAE-01-08</span>
+    <span class='sum'>Aprobación del ABM impositivo por Impuestos</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Impuestos · Reuso: Primary · Flujo: PAE_TOBE_BuildUp</p>
+    <p class='us'>Como Impuestos,<br>quiero aprobar en el sistema el alta, la baja o la modificación de una alícuota municipal,<br>para que la evidencia deje de ser un mail de respaldo (FR-8).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un cambio de alícuota municipal</div><div><b>Cuando</b> Pricing lo carga</div><div><b>Entonces</b> dispara la aprobación formal de Impuestos, porque genera un nuevo Precio Base de Cálculo</div><div><b>Y</b> hasta que se apruebe, la alícuota nueva no entra al cálculo</div></div><div class='sc'><div><b>Dado</b> una aprobación de Impuestos</div><div><b>Cuando</b> queda registrada</div><div><b>Entonces</b> dice quién aprobó y cuándo, en el sistema y no en un correo</div></div><div class='sc'><div><b>Dado</b> Impuestos</div><div><b>Cuando</b> participa del circuito</div><div><b>Entonces</b> aprueba el dato impositivo; no opera la táctica</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Circuito de aprobación de PriceCondition__c: si el tipo de componente es impositivo, el paso va a la cola PAE_PRC_AprobacionImpuestos; si no, a la de nivel 1. Al aprobar, un flujo llama a refreshDecisionTable (energy-002).</li><li>[Configuration] Grupo PAE_PRC_TaxOwner con acceso de edición a PriceCondition__c, y regla de compartir por criterio —área responsable = Impuestos— hacia el grupo público PAE_PRC_Impuestos.</li><li>Detalle: handoff/especificacion-accesos-y-aprobaciones.md §6.3 y §7.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>Quién carga lo impositivo. La lámina 68 dice que Impuestos carga y aprueba; A46, que Pricing carga con el OK de Impuestos. Con dos usuarios distintos conviven; si carga sólo Impuestos, se agrega una regla de validación con su custom permission.</li><li>El área responsable del tipo de componente no está en el diccionario: energy-007 la difería hasta A46, que ya cerró.</li></ul>
+  </div>
+</div>
+</section>
+<section class='ep' data-dom='MAE'>
+  <div class='eh' style='border-left-color:#0176D3'>
+    <span class='ord'>2</span>
+    <span class='key' style='color:#0176D3'>MAE-02</span>
+    <span class='sum'>Catálogo de productos</span>
+    <span class='cnt'>2 historias</span>
+  </div>
+  <p class='ed'>El PSS entra por familia sobre el árbol corporativo, y el catálogo no le cierra la puerta a Lubes y B2B.</p>
+  <p class='ep-meta'><b>Plataforma:</b> Salesforce (Product2, ProductClassification). · <b>FRs:</b> FR-10, FR-11</p>
+  
+<div class='es'>
+  <button class='eb' onclick='this.nextElementSibling.classList.toggle("on")'>Especificación de la épica ▸</button>
+  <div class='esd'>
+    <p><b>Notas:</b> Carga masiva inicial, sin interfaz. Depende de MAE-01.</p>
+    <p><b>Componentes de plataforma:</b> <span class='muted'>—</span></p>
+    <p><b>Objetos del diseño:</b> <span class='lb'>Product2</span><span class='lb'>ProductClassification</span></p>
+    
+    <p><b>Tareas de código (0):</b></p><p>Ninguna: la épica es sólo configuración.</p>
+    <details><summary><b>Tareas de configuración (4)</b></summary><ul><li><b>MAE-02-01</b> — Árbol en ProductClassification, con el SKU colgado del nodo por Product2.BasedOnId (energy-006).</li><li><b>MAE-02-01</b> — MaterialCode__c en Product2: texto de 12, único, clave externa. MaterialPriceGroup__c en ProductClassification: texto de 2, aparte del Code del nivel.</li><li><b>MAE-02-01</b> — Carga masiva inicial; no hay interfaz de productos.</li><li><b>MAE-02-02</b> — Clasificación que admita Lubes y B2B, sin proceso de cálculo ni de publicación para esas líneas.</li></ul></details>
+    <p><b>Abierto para refinamiento:</b> 1 de 2 historias.</p>
+  </div>
+</div>
+  
+<div class='st' id='MAE-02-01' data-dom='MAE' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#0176D3'>MAE-02-01</span>
+    <span class='sum'>Familia y SKU sobre el árbol corporativo</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_TOBE_Tactica</p>
+    <p class='us'>Como analista de Pricing,<br>quiero cargar el PSS a la Familia y tener los SKU debajo,<br>para que el cartel sea uno y el neto degrade por producto (FR-10).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una familia de Retail Fuels</div><div><b>Cuando</b> el analista carga el PSS</div><div><b>Entonces</b> se carga a la familia, no SKU por SKU</div><div><b>Y</b> todos los SKU de esa familia en la estación muestran el mismo cartel</div></div><div class='sc'><div><b>Dado</b> dos SKU de la misma familia</div><div><b>Cuando</b> corre el build up</div><div><b>Entonces</b> el neto puede ser distinto para cada uno</div></div><div class='sc'><div><b>Dado</b> el catálogo de productos</div><div><b>Cuando</b> lo consulta el motor</div><div><b>Entonces</b> es el de la organización: el motor no tiene un catálogo propio que haya que reconciliar</div></div><div class='sc'><div><b>Dado</b> NOVAX o XENTURY</div><div><b>Cuando</b> se modelan</div><div><b>Entonces</b> son atributo de marca, no una entidad aparte</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Árbol en ProductClassification, con el SKU colgado del nodo por Product2.BasedOnId (energy-006).</li><li>[Configuration] MaterialCode__c en Product2: texto de 12, único, clave externa. MaterialPriceGroup__c en ProductClassification: texto de 2, aparte del Code del nivel.</li><li>[Configuration] Carga masiva inicial; no hay interfaz de productos.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A95 — el mapeo de cada grupo de precios de material a su código de dos posiciones. Sin esa tabla el campo queda vacío y la publicación sale con la clave equivocada.</li></ul>
+  </div>
+</div>
+<div class='st' id='MAE-02-02' data-dom='MAE' data-open='0' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#0176D3'>MAE-02-02</span>
+    <span class='sum'>Puerta abierta a Lubes y B2B, sin operarlos</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Configurador · Reuso: Derived from MAE-02-01 · product-family variant · Flujo: PAE_TOBE_Tactica</p>
+    <p class='us'>Como configurador,<br>quiero que el catálogo admita Lubes y B2B sin operarlos,<br>para que las olas siguientes no obliguen a rehacerlo (FR-11).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> el MVP</div><div><b>Cuando</b> se calcula o publica precio</div><div><b>Entonces</b> no hay proceso, archivo ni pantalla de Lubes ni de B2B</div></div><div class='sc'><div><b>Dado</b> una ola posterior de Lubes o B2B</div><div><b>Cuando</b> entre al catálogo</div><div><b>Entonces</b> no hace falta romper el PSS de Retail ni armar un catálogo paralelo</div></div><div class='sc'><div><b>Dado</b> el contrato de evolución</div><div><b>Cuando</b> entre Lubes</div><div><b>Entonces</b> el motor publicará precio de lista, y descuentos y rebates seguirán en SAP</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Clasificación que admita Lubes y B2B, sin proceso de cálculo ni de publicación para esas líneas.</li></ul>
+    <h4>Abierto para refinamiento</h4><p class='muted'>—</p>
+  </div>
+</div>
+</section>
+<section class='ep' data-dom='PAR'>
+  <div class='eh' style='border-left-color:#2E844A'>
+    <span class='ord'>3</span>
+    <span class='key' style='color:#2E844A'>PAR-01</span>
+    <span class='sum'>Zonas, políticas y referencias</span>
+    <span class='cnt'>5 historias</span>
+  </div>
+  <p class='ed'>La zona con su pertenencia fechada, su política por familia, sus referencias con rol y diferencia, una sola regla de redondeo y las bandas de posición.</p>
+  <p class='ep-meta'><b>Plataforma:</b> Salesforce. · <b>FRs:</b> FR-12, FR-13, FR-20, FR-23</p>
+  
+<div class='es'>
+  <button class='eb' onclick='this.nextElementSibling.classList.toggle("on")'>Especificación de la épica ▸</button>
+  <div class='esd'>
+    <p><b>Notas:</b> Todo parámetro que mueve precio es un registro aprobable (energy-017). Paralela a PAR-03.</p>
+    <p><b>Componentes de plataforma:</b> <span class='lb'>Circuito de aprobación</span><span class='lb'>Decision Table sobre objeto</span><span class='lb'>Colas</span></p>
+    <p><b>Objetos del diseño:</b> <span class='lb'>Location</span><span class='lb'>PriceBand__c</span><span class='lb'>PriceRoundingRule__c</span><span class='lb'>PricingAreaLocationRelation__c</span><span class='lb'>PricingAreaPolicy__c</span><span class='lb'>PricingAreaReference__c</span><span class='lb'>PricingArea__c</span></p>
+    
+    <p><b>Tareas de código (0):</b></p><p>Ninguna: la épica es sólo configuración.</p>
+    <details><summary><b>Tareas de configuración (13)</b></summary><ul><li><b>PAR-01-01</b> — PricingArea__c tipada por AreaType__c; la Fase 1 sólo persiste PriceZone.</li><li><b>PAR-01-01</b> — PricingAreaLocationRelation__c con ActiveFrom / ActiveTo y Classification__c (Price Site / Driving Site / Info Only).</li><li><b>PAR-01-01</b> — ParentPricingAreaId__c para la escalera geográfica que usa PAR-02-03.</li><li><b>PAR-01-02</b> — PricingAreaPolicy__c con AnchorType__c y TacticType__c, grano zona × familia (energy-017 §1). Aprobable con los campos de gobierno de energy-007.</li><li><b>PAR-01-02</b> — Circuito de aprobación de un paso, a la cola de nivel 1, con bloqueo al aprobar (handoff/especificacion-accesos-y-aprobaciones.md §6.4).</li><li><b>PAR-01-03</b> — PricingAreaReference__c: master-detail a la política y lookup a la pertenencia, no a Location.</li><li><b>PAR-01-03</b> — Role__c (Marker, Tope, Cap, Floor, GapCap) y la clase en Kind__c (Objetivo / Acotante); la diferencia en Premium__c, con signo y GapUnit__c.</li><li><b>PAR-01-03</b> — Sin validación de un solo Marker ni de unicidad por estación: el marker y el tope del gap apuntan a la misma (energy-017, energy-020 §2).</li><li><b>PAR-01-03</b> — Circuito de aprobación de un paso, a la cola de nivel 1: la diferencia mueve precio (energy-007; especificación de accesos §6.4).</li><li><b>PAR-01-04</b> — PriceRoundingRule__c con vigencia y los campos de gobierno de energy-007, sin eje de familia (A11). El pivote está en los últimos cuatro dígitos (energy-020 §1).</li><li><b>PAR-01-04</b> — La carga el configurador; circuito de un paso a la cola de nivel 1 (especificación de accesos §6.4).</li><li><b>PAR-01-05</b> — PriceBand__c por canal y producto, umbrales en porcentaje con ReferenceBasis__c, serie de fin abierto. En retail, sólo el X10 tiene banda.</li><li><b>PAR-01-05</b> — Circuito de un paso a la cola de nivel 1 (especificación de accesos §6.4).</li></ul></details>
+    <p><b>Abierto para refinamiento:</b> 5 de 5 historias.</p>
+  </div>
+</div>
+  
+<div class='st' id='PAR-01-01' data-dom='PAR' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#2E844A'>PAR-01-01</span>
+    <span class='sum'>Pertenencia fechada a la zona</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_TOBE_Tactica</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que la pertenencia de una estación a la zona tenga vigencia y clasificación de comportamiento,<br>para que mover una boca no obligue a editar la zona ni pise el pasado (FR-12).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una estación y una zona de precios</div><div><b>Cuando</b> se asigna la estación a la zona</div><div><b>Entonces</b> la pertenencia tiene fecha de inicio y de fin</div><div><b>Y</b> la zona en sí no tiene vigencia: la que vence es la pertenencia</div></div><div class='sc'><div><b>Dado</b> una boca que cambia de zona</div><div><b>Cuando</b> se la mueve</div><div><b>Entonces</b> se cierra la pertenencia anterior y se abre una nueva</div><div><b>Y</b> la zona no se edita</div></div><div class='sc'><div><b>Dado</b> un recálculo de una fecha pasada</div><div><b>Cuando</b> la estación estaba en otra zona</div><div><b>Entonces</b> se usa la zona de ese intervalo</div></div><div class='sc'><div><b>Dado</b> una pertenencia</div><div><b>Cuando</b> se la clasifica</div><div><b>Entonces</b> dice si la estación es de precio, de referencia o sólo informativa, y eso vive en la pertenencia y no en la estación</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] PricingArea__c tipada por AreaType__c; la Fase 1 sólo persiste PriceZone.</li><li>[Configuration] PricingAreaLocationRelation__c con ActiveFrom / ActiveTo y Classification__c (Price Site / Driving Site / Info Only).</li><li>[Configuration] ParentPricingAreaId__c para la escalera geográfica que usa PAR-02-03.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A59 — una estación sin zona no recibe precio, y entonces no se le puede facturar. El negocio pidió verlo en la corrida (SAL-01-05); falta definir qué hace el motor con ella.</li><li>A70 — la localidad no está en el catálogo de tipos de área.</li></ul>
+  </div>
+</div>
+<div class='st' id='PAR-01-02' data-dom='PAR' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#2E844A'>PAR-01-02</span>
+    <span class='sum'>Política de la zona por familia</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_TOBE_Tactica</p>
+    <p class='us'>Como analista de Pricing,<br>quiero definir por familia el arquetipo de ancla y su táctica,<br>para que la política viva en el dato y no en código (FR-20).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una zona y una familia</div><div><b>Cuando</b> el analista define la política</div><div><b>Entonces</b> elige el arquetipo de ancla —competencia, fórmula o precio propio— y el tipo de táctica</div></div><div class='sc'><div><b>Dado</b> un cambio de política</div><div><b>Cuando</b> se guarda</div><div><b>Entonces</b> pasa por el circuito de aprobación, como todo lo que mueve precio</div><div><b>Y</b> no requiere un despliegue</div></div><div class='sc'><div><b>Dado</b> retail en el MVP</div><div><b>Cuando</b> se configura</div><div><b>Entonces</b> el ancla es la competencia; fórmula y precio propio quedan disponibles para las olas de B2B</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] PricingAreaPolicy__c con AnchorType__c y TacticType__c, grano zona × familia (energy-017 §1). Aprobable con los campos de gobierno de energy-007.</li><li>[Configuration] Circuito de aprobación de un paso, a la cola de nivel 1, con bloqueo al aprobar (handoff/especificacion-accesos-y-aprobaciones.md §6.4).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>PricingAreaPolicy__c no tiene todavía Status__c ni el motivo en el diccionario.</li></ul>
+  </div>
+</div>
+<div class='st' id='PAR-01-03' data-dom='PAR' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#2E844A'>PAR-01-03</span>
+    <span class='sum'>Referencias de posicionamiento con rol y diferencia</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_TOBE_Tactica</p>
+    <p class='us'>Como analista de Pricing,<br>quiero declarar las referencias de posicionamiento con su rol, su diferencia y su signo,<br>para que marker y tope dejen de ser un SÍ/NO pegado a la zona (FR-13).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una política de zona y familia</div><div><b>Cuando</b> el analista declara una referencia</div><div><b>Entonces</b> tiene su rol —marker, tope, límite superior, límite inferior o tope del gap—, su diferencia y su signo</div></div><div class='sc'><div><b>Dado</b> una zona con más de un marker</div><div><b>Cuando</b> se cargan</div><div><b>Entonces</b> se aceptan todos: una zona puede tener más de un marker</div></div><div class='sc'><div><b>Dado</b> un rol con varias estaciones, por ejemplo dos YPF</div><div><b>Cuando</b> se define cómo combinarlas</div><div><b>Entonces</b> la zona elige mayor, menor o promedio, y vale igual para el tope</div></div><div class='sc'><div><b>Dado</b> una estación de referencia que sale de la zona</div><div><b>Cuando</b> termina su pertenencia</div><div><b>Entonces</b> deja de ser referencia sin limpieza a mano</div></div><div class='sc'><div><b>Dado</b> una zona y familia sin tope del gap</div><div><b>Cuando</b> se consulta</div><div><b>Entonces</b> es un estado válido, no un registro a medio cargar</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] PricingAreaReference__c: master-detail a la política y lookup a la pertenencia, no a Location.</li><li>[Configuration] Role__c (Marker, Tope, Cap, Floor, GapCap) y la clase en Kind__c (Objetivo / Acotante); la diferencia en Premium__c, con signo y GapUnit__c.</li><li>[Configuration] Sin validación de un solo Marker ni de unicidad por estación: el marker y el tope del gap apuntan a la misma (energy-017, energy-020 §2).</li><li>[Configuration] Circuito de aprobación de un paso, a la cola de nivel 1: la diferencia mueve precio (energy-007; especificación de accesos §6.4).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>PricingAreaReference__c no tiene todavía Status__c ni el motivo en el diccionario.</li><li>energy-005 contradice a energy-017. El punto 11 de la lista de revisión de energy-005 pide un solo Marker vigente por política; energy-017 fija 1..N y prohíbe validar unicidad. Propuesta: actualizar energy-005.</li><li>Dónde vive el operador mayor / menor / promedio: no hay campo decidido. Es por zona y por rol.</li><li>Grano de la aprobación. Con la diferencia en la referencia, cambiar la posición de una zona es aprobar N registros hijos. energy-017 §1 lo deja declarado para energy-007.</li></ul>
+  </div>
+</div>
+<div class='st' id='PAR-01-04' data-dom='PAR' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#2E844A'>PAR-01-04</span>
+    <span class='sum'>Una sola regla de redondeo gobernada</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_TOBE_Tactica</p>
+    <p class='us'>Como analista de Pricing,<br>quiero una sola regla de redondeo gobernada,<br>para que la terminación del precio no se despliegue con código (FR-20).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> la regla de redondeo</div><div><b>Cuando</b> se aplica</div><div><b>Entonces</b> es una sola para las cuatro familias, y redondea en los dos sentidos</div></div><div class='sc'><div><b>Dado</b> un cambio de la terminación</div><div><b>Cuando</b> el negocio lo decide</div><div><b>Entonces</b> se carga como un registro con su aprobación, sin despliegue</div><div><b>Y</b> no mueve precios publicados por fuera del circuito</div></div><div class='sc'><div><b>Dado</b> la tolerancia y el mínimo del X10</div><div><b>Cuando</b> se buscan</div><div><b>Entonces</b> no están en la regla de redondeo: son parámetros del X10 (CAL-01-04)</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] PriceRoundingRule__c con vigencia y los campos de gobierno de energy-007, sin eje de familia (A11). El pivote está en los últimos cuatro dígitos (energy-020 §1).</li><li>Rechazado: la terminación en una Decision Table, que se despliega sin motivo ni aprobador (energy-017 §3).</li><li>[Configuration] La carga el configurador; circuito de un paso a la cola de nivel 1 (especificación de accesos §6.4).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A11 — la rama de la fórmula que devuelve un valor fuera de rango. Hoy esa condición usa la rama por defecto.</li></ul>
+  </div>
+</div>
+<div class='st' id='PAR-01-05' data-dom='PAR' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#2E844A'>PAR-01-05</span>
+    <span class='sum'>Bandas de posición por canal y producto</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Jefe de Precios · Reuso: Primary · Flujo: PAE_TOBE_Ciclo_Precio</p>
+    <p class='us'>Como Jefe de Precios,<br>quiero mantener las bandas por canal y producto con su referencia,<br>para que el ruteo de aprobación tenga contra qué medir (FR-23).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un canal y un producto</div><div><b>Cuando</b> Pricing mantiene su banda</div><div><b>Entonces</b> es un porcentaje contra una referencia —PS YPF ±% o Gap %—, no un importe</div></div><div class='sc'><div><b>Dado</b> una banda que se revisa, al menos una vez al año</div><div><b>Cuando</b> se carga la nueva</div><div><b>Entonces</b> la anterior no se pisa: queda la serie fechada</div></div><div class='sc'><div><b>Dado</b> un precio propuesto</div><div><b>Cuando</b> se compara con la banda</div><div><b>Entonces</b> el motor informa su posición dentro de la banda, que es uno de los dos ejes del ruteo (GOB-01-02)</div></div><div class='sc'><div><b>Dado</b> un precio que sale de la banda por factores exógenos</div><div><b>Cuando</b> ocurre</div><div><b>Entonces</b> no bloquea: notifica</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] PriceBand__c por canal y producto, umbrales en porcentaje con ReferenceBasis__c, serie de fin abierto. En retail, sólo el X10 tiene banda.</li><li>[Configuration] Circuito de un paso a la cola de nivel 1 (especificación de accesos §6.4).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A49 — si el canal necesita eje propio, y cuál de los dos porcentajes del X10 se persiste.</li><li>Quién carga las bandas. La historia pone al Jefe de Precios; por la regla de que quien mantiene parámetros no aprueba precios (lámina 69), la propuesta es que las cargue el configurador y las apruebe el jefe.</li><li>PriceBand__c no tiene todavía Status__c ni el motivo en el diccionario.</li></ul>
+  </div>
+</div>
+</section>
+<section class='ep' data-dom='PAR'>
+  <div class='eh' style='border-left-color:#2E844A'>
+    <span class='ord'>4</span>
+    <span class='key' style='color:#2E844A'>PAR-03</span>
+    <span class='sum'>Estructura del build up</span>
+    <span class='cnt'>3 historias</span>
+  </div>
+  <p class='ed'>La cascada de una línea declarada como datos, cada componente resolviendo su valor por ejes, y el cálculo para todas las plantas habilitadas.</p>
+  <p class='ep-meta'><b>Plataforma:</b> Salesforce (BRE: Decision Tables sobre objeto). · <b>FRs:</b> FR-15, FR-16, FR-17</p>
+  
+<div class='es'>
+  <button class='eb' onclick='this.nextElementSibling.classList.toggle("on")'>Especificación de la épica ▸</button>
+  <div class='esd'>
+    <p><b>Notas:</b> La primitiva de componentes todavía no tiene decisión de arquitectura (lámina 58); las tres historias quedan condicionadas.</p>
+    <p><b>Componentes de plataforma:</b> <span class='lb'>Circuito de aprobación</span><span class='lb'>Decision Table sobre objeto</span><span class='lb'>Colas</span></p>
+    <p><b>Objetos del diseño:</b> <span class='lb'>PriceConditionType__c</span><span class='lb'>PriceCondition__c</span><span class='lb'>PriceStructureStep__c</span><span class='lb'>PriceStructure__c</span></p>
+    <p><b>Patrón probado en la PoC:</b> <span class='lb'>PAE_PRC_Probe_Cond</span></p>
+    <p><b>Tareas de código (0):</b></p><p>Ninguna: la épica es sólo configuración.</p>
+    <details><summary><b>Tareas de configuración (7)</b></summary><ul><li><b>PAR-03-01</b> — PriceStructure__c y PriceStructureStep__c, con sentido y base de cálculo. El orden y la base viven en registros (energy-007).</li><li><b>PAR-03-01</b> — Los mantiene el configurador; circuito de un paso a la cola de nivel 1 sobre PriceStructureStep__c (especificación de accesos §6.4).</li><li><b>PAR-03-02</b> — PriceConditionType__c y PriceCondition__c, con ejes anulables y vigencia. Ya existen en poc-app/.</li><li><b>PAR-03-02</b> — Decision Table sobre el objeto (PAE_PRC_Probe_Cond*): el nulo actúa de comodín y el No Match explícito distingue ausencia de cero (energy-002, D33).</li><li><b>PAR-03-02</b> — El circuito de aprobación dispara refreshDecisionTable, porque la tabla no lee en vivo. Arriba de 2.000 cambios el incremental falla y hace falta un refresco completo.</li><li><b>PAR-03-02</b> — La clase de condición con que se publica cada componente vive en el catálogo de tipos (SapConditionClass__c), no en el código que arma la publicación.</li><li><b>PAR-03-03</b> — Plantas habilitadas como eje de la emisión y del cálculo.</li></ul></details>
+    <p><b>Abierto para refinamiento:</b> 3 de 3 historias.</p>
+  </div>
+</div>
+  
+<div class='st' id='PAR-03-01' data-dom='PAR' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#2E844A'>PAR-03-01</span>
+    <span class='sum'>La cascada como pasos ordenados</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Configurador · Reuso: Primary · Flujo: PAE_TOBE_BuildUp</p>
+    <p class='us'>Como configurador,<br>quiero declarar la cascada de una línea como pasos ordenados con su base de cálculo,<br>para que agregar un componente sea configuración (FR-15).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una línea de negocio</div><div><b>Cuando</b> el configurador declara su cascada</div><div><b>Entonces</b> es una lista de pasos ordenados, y cada paso dice sobre qué base se aplica</div></div><div class='sc'><div><b>Dado</b> un componente nuevo</div><div><b>Cuando</b> se agrega</div><div><b>Entonces</b> es un paso más, cargado como dato, sin tocar el cálculo</div></div><div class='sc'><div><b>Dado</b> GNC</div><div><b>Cuando</b> se declara su cascada</div><div><b>Entonces</b> usa sólo el subconjunto de componentes que le corresponde</div></div><div class='sc'><div><b>Dado</b> el biocombustible</div><div><b>Cuando</b> se modela</div><div><b>Entonces</b> no es un paso: va embutido en ITC / IDC</div></div><div class='sc'><div><b>Dado</b> un cambio en el orden de la cascada</div><div><b>Cuando</b> se carga</div><div><b>Entonces</b> pasa por aprobación, porque mueve precio</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] PriceStructure__c y PriceStructureStep__c, con sentido y base de cálculo. El orden y la base viven en registros (energy-007).</li><li>[Configuration] Los mantiene el configurador; circuito de un paso a la cola de nivel 1 sobre PriceStructureStep__c (especificación de accesos §6.4).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>La primitiva de componentes es decisión de arquitectura pendiente (lámina 58). Condiciona las tres historias de PAR-03 y tres de CAL-02.</li><li>El orden fino de los componentes se valida con Impuestos; no cambia el objeto.</li></ul>
+  </div>
+</div>
+<div class='st' id='PAR-03-02' data-dom='PAR' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#2E844A'>PAR-03-02</span>
+    <span class='sum'>El valor de cada componente, por ejes y con vigencia</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_TOBE_BuildUp</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que cada componente resuelva su valor por ejes con vigencia, donde lo específico gana y la ausencia no es cero,<br>para que un dato sin cargar no pase por un impuesto en cero (FR-16).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un componente</div><div><b>Cuando</b> se carga su valor</div><div><b>Entonces</b> puede aplicar a un producto y una zona, a una familia, o a todo</div></div><div class='sc'><div><b>Dado</b> varios valores que coinciden</div><div><b>Cuando</b> se resuelve</div><div><b>Entonces</b> se aplica el más específico</div></div><div class='sc'><div><b>Dado</b> que no hay valor específico</div><div><b>Cuando</b> se resuelve</div><div><b>Entonces</b> aplica el general, sin que nadie configure la cadena</div></div><div class='sc'><div><b>Dado</b> un componente sin ningún valor</div><div><b>Cuando</b> se resuelve</div><div><b>Entonces</b> la respuesta es &quot;no hay componente&quot;, distinta de &quot;vale cero&quot;</div></div><div class='sc'><div><b>Dado</b> un recálculo de una fecha pasada</div><div><b>Cuando</b> el valor de entonces era otro</div><div><b>Entonces</b> se usa el que regía</div></div><div class='sc'><div><b>Dado</b> un valor nuevo aprobado</div><div><b>Cuando</b> corre el cálculo siguiente</div><div><b>Entonces</b> el cálculo ya lo usa</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] PriceConditionType__c y PriceCondition__c, con ejes anulables y vigencia. Ya existen en poc-app/.</li><li>[Configuration] Decision Table sobre el objeto (PAE_PRC_Probe_Cond*): el nulo actúa de comodín y el No Match explícito distingue ausencia de cero (energy-002, D33).</li><li>[Configuration] El circuito de aprobación dispara refreshDecisionTable, porque la tabla no lee en vivo. Arriba de 2.000 cambios el incremental falla y hace falta un refresco completo.</li><li>[Configuration] La clase de condición con que se publica cada componente vive en el catálogo de tipos (SapConditionClass__c), no en el código que arma la publicación.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>La primitiva de componentes (lámina 58).</li><li>La ventana del refresco: entre aprobar un valor y que el cálculo lo vea hay una cola. Hay que acordar cuánto se tolera.</li></ul>
+  </div>
+</div>
+<div class='st' id='PAR-03-03' data-dom='PAR' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#2E844A'>PAR-03-03</span>
+    <span class='sum'>Todas las plantas habilitadas</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Derived from PAR-03-02 · cross-pattern · Flujo: PAE_TOBE_BuildUp</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que la estructura se calcule para todas las plantas habilitadas, no sólo la habitual,<br>para que un despacho desde una planta no habitual no quede sin neto (FR-17).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una estación con varias plantas habilitadas</div><div><b>Cuando</b> corre el build up</div><div><b>Entonces</b> hay un resultado por cada planta habilitada, no sólo por la habitual</div></div><div class='sc'><div><b>Dado</b> la publicación</div><div><b>Cuando</b> sale</div><div><b>Entonces</b> la planta es un eje de lo que se emite, no sólo del cálculo</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Plantas habilitadas como eje de la emisión y del cálculo.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A53 — el flete tiene tres orígenes, con porcentaje de reconocimiento: define el grano del componente de flete.</li><li>La primitiva de componentes (lámina 58).</li></ul>
+  </div>
+</div>
+</section>
+<section class='ep' data-dom='PAR'>
+  <div class='eh' style='border-left-color:#2E844A'>
+    <span class='ord'>5</span>
+    <span class='key' style='color:#2E844A'>PAR-02</span>
+    <span class='sum'>Observatorio de mercado</span>
+    <span class='cnt'>3 historias</span>
+  </div>
+  <p class='ed'>La referencia de competencia llega resuelta por recencia, el conjunto de observaciones se puede consultar, y la zona sin dato encuentra sugerencia subiendo el árbol.</p>
+  <p class='ep-meta'><b>Plataforma:</b> Salesforce y Data 360 (federación Zero Copy desde un repositorio de PAE). · <b>FRs:</b> FR-14, FR-19</p>
+  
+<div class='es'>
+  <button class='eb' onclick='this.nextElementSibling.classList.toggle("on")'>Especificación de la épica ▸</button>
+  <div class='esd'>
+    <p><b>Notas:</b> Depende de A96: PAE propuso armar el repositorio de las cuatro fuentes en su AWS.</p>
+    <p><b>Componentes de plataforma:</b> <span class='lb'>Data 360 Zero Copy</span></p>
+    <p><b>Objetos del diseño:</b> <span class='lb'>PricingAreaPumpPrice__c</span></p>
+    
+    <p><b>Tareas de código (1):</b></p><ul><li><b>PAR-02-03</b> — Resolvedor de extrapolación. ⚠️ Sin ADR: energy-020 §6 excluye el árbol a propósito. No abrir la sub-tarea hasta que exista.</li></ul>
+    <details><summary><b>Tareas de configuración (5)</b></summary><ul><li><b>PAR-02-01</b> — La referencia entra al motor como variable, con fuente y fecha de observación (energy-008; lámina 61).</li><li><b>PAR-02-01</b> — El precio manual no compite por recencia: se aplica después (CAL-01-05). BOT 314 sigue siendo bot.</li><li><b>PAR-02-02</b> — Consulta del conjunto federado con Data 360 Zero Copy: fuente, fecha de observación y cuál ganó. Sin copia a Salesforce (A96; lámina 61).</li><li><b>PAR-02-03</b> — Árbol geográfico como jerarquía de datos (ParentPricingAreaId__c).</li><li><b>PAR-02-03</b> — SuggestionSource__c en PricingAreaPumpPrice__c (energy-017 §2); su vocabulario espera el orden del árbol.</li></ul></details>
+    <p><b>Abierto para refinamiento:</b> 3 de 3 historias.</p>
+  </div>
+</div>
+  
+<div class='st' id='PAR-02-01' data-dom='PAR' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#2E844A'>PAR-02-01</span>
+    <span class='sum'>Referencia de competencia resuelta por recencia</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_Rutina_Worklist</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que la referencia de competencia sea la observación más reciente, con la prioridad de fuente sólo como desempate, y que el motor la reciba ya resuelta,<br>para que el GAP se ancle en un precio trazable (FR-14).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> observaciones de eCenter, GETT, QR y Res. 314 para una estación y un producto</div><div><b>Cuando</b> se resuelve la referencia</div><div><b>Entonces</b> gana la observación más reciente entre las que siguen vigentes</div><div><b>Y</b> cuenta la fecha de observación, nunca la de carga</div></div><div class='sc'><div><b>Dado</b> dos observaciones con la misma fecha</div><div><b>Cuando</b> se resuelve</div><div><b>Entonces</b> desempata la prioridad: eCenter, GETT, QR, Res. 314</div></div><div class='sc'><div><b>Dado</b> una observación vieja de una fuente de más prioridad y una reciente de menos</div><div><b>Cuando</b> se resuelve</div><div><b>Entonces</b> gana la reciente</div></div><div class='sc'><div><b>Dado</b> el cálculo de la táctica</div><div><b>Cuando</b> necesita la referencia</div><div><b>Entonces</b> la recibe ya resuelta, con su fuente y su fecha</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] La referencia entra al motor como variable, con fuente y fecha de observación (energy-008; lámina 61).</li><li>[Configuration] El precio manual no compite por recencia: se aplica después (CAL-01-05). BOT 314 sigue siendo bot.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A96 — quién arma el repositorio de las cuatro fuentes. PAE lo propuso en su AWS, a cargo del equipo de Diego Sodor; falta confirmar dueño, alcance y plazo (octubre).</li><li>Quién aplica la regla de recencia: el repositorio, o Salesforce sobre lo federado. Propuesta: si la aplica el repositorio, que entregue también la fuente y la fecha ganadoras (energy-008 §5).</li></ul>
+  </div>
+</div>
+<div class='st' id='PAR-02-02' data-dom='PAR' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#2E844A'>PAR-02-02</span>
+    <span class='sum'>Consulta del conjunto de observaciones</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Derived from PAR-02-01 · cross-pattern · Flujo: PAE_Rutina_Worklist</p>
+    <p class='us'>Como analista de Pricing,<br>quiero consultar las observaciones de las cuatro fuentes —no sólo la ganadora— y ver qué fuente y qué fecha ganaron,<br>para que pueda explicar por qué una referencia es atípica (FR-14).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una referencia que parece atípica</div><div><b>Cuando</b> el analista la investiga</div><div><b>Entonces</b> ve todas las observaciones de las cuatro fuentes para esa zona y ese producto</div><div><b>Y</b> ve cuál ganó, de qué fuente y con qué fecha</div></div><div class='sc'><div><b>Dado</b> las observaciones</div><div><b>Cuando</b> se consultan</div><div><b>Entonces</b> se leen donde están, sin copiarlas a Salesforce</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Consulta del conjunto federado con Data 360 Zero Copy: fuente, fecha de observación y cuál ganó. Sin copia a Salesforce (A96; lámina 61).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A96 — que el alcance del repositorio incluya las observaciones crudas, no sólo el valor elegido. Sin eso esta historia no tiene qué mostrar.</li><li>D19 — el destino del dato frío.</li></ul>
+  </div>
+</div>
+<div class='st' id='PAR-02-03' data-dom='PAR' data-open='1' data-code='1'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#2E844A'>PAR-02-03</span>
+    <span class='sum'>Extrapolación por el árbol geográfico</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span><span class='lb lb-con-codigo'>con-codigo</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_TOBE_Tactica</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que el motor suba el árbol geográfico cuando la zona no tiene referencia, y me diga de dónde sacó el dato,<br>para que no me quede sin sugerencia (FR-19).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una zona sin referencia de competencia</div><div><b>Cuando</b> el motor calcula</div><div><b>Entonces</b> sube el árbol hasta encontrar un valor</div><div><b>Y</b> muestra de qué nivel salió</div></div><div class='sc'><div><b>Dado</b> el precio sugerido</div><div><b>Cuando</b> se guarda</div><div><b>Entonces</b> queda su procedencia al lado, y el aprobador la ve</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Árbol geográfico como jerarquía de datos (ParentPricingAreaId__c).</li><li>[Configuration] SuggestionSource__c en PricingAreaPumpPrice__c (energy-017 §2); su vocabulario espera el orden del árbol.</li><li>[Code] Resolvedor de extrapolación. ⚠️ Sin ADR: energy-020 §6 excluye el árbol a propósito. No abrir la sub-tarea hasta que exista.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A70 — la forma del árbol (hay dos descripciones que no coinciden), qué es la localidad, y qué precio se usa cuando se agota. Otro orden de búsqueda da otro precio.</li></ul>
+  </div>
+</div>
+</section>
+<section class='ep' data-dom='CAL'>
+  <div class='eh' style='border-left-color:#9050E9'>
+    <span class='ord'>6</span>
+    <span class='key' style='color:#9050E9'>CAL-01</span>
+    <span class='sum'>Motor de táctica</span>
+    <span class='cnt'>6 historias</span>
+  </div>
+  <p class='ed'>El motor arma la propuesta que hoy sale de la planilla: posiciona, acota, redondea, respeta el piso del marker, y recalcula las zonas vecinas con una cota.</p>
+  <p class='ep-meta'><b>Plataforma:</b> Salesforce (BRE por lote, DPE para preparar la lista de trabajo). · <b>FRs:</b> FR-13, FR-19, FR-20, FR-21</p>
+  
+<div class='es'>
+  <button class='eb' onclick='this.nextElementSibling.classList.toggle("on")'>Especificación de la épica ▸</button>
+  <div class='esd'>
+    <p><b>Notas:</b> Paralela a CAL-02 y nunca casada con ella. Deja el PSS propuesto; no publica.</p>
+    <p><b>Componentes de plataforma:</b> <span class='lb'>Circuito de aprobación</span><span class='lb'>Expression Set (BRE)</span><span class='lb'>Decision Table sobre objeto</span><span class='lb'>DPE</span><span class='lb'>Colas</span><span class='lb'>List views</span></p>
+    <p><b>Objetos del diseño:</b> <span class='muted'>—</span></p>
+    
+    <p><b>Tareas de código (1):</b></p><ul><li><b>CAL-01-06</b> — Job de recálculo por propagación — energy-020 §3: el lazo termina por diseño, no por convergencia.</li></ul>
+    <details><summary><b>Tareas de configuración (11)</b></summary><ul><li><b>CAL-01-01</b> — La worklist como superficie de invocación, con list views por zona y familia.</li><li><b>CAL-01-01</b> — Definición DPE para preparar la lista de trabajo (lámina 17). El cálculo no corre en DPE: corre en BRE por lote (CAL-02-02).</li><li><b>CAL-01-02</b> — Expression Set con el orden de energy-020 §5: posición → tope blando → redondeo → piso duro del marker (MAX).</li><li><b>CAL-01-02</b> — El precio sugerido entra como variable de entrada, resuelto por consulta en el job; no por Decision Table (energy-020 §4).</li><li><b>CAL-01-02</b> — Operador mayor / menor / promedio por zona dentro de cada rol, también para el tope (A76, 22/09).</li><li><b>CAL-01-03</b> — La modalidad como parámetro de la política; GapUnit__c admite porcentaje o importe; redondeo en todas.</li><li><b>CAL-01-04</b> — Expression Set del X10 como mínimo de cuatro candidatos, con piso y techo (energy-020 §2).</li><li><b>CAL-01-04</b> — El −2 % y el 3 % en Premium__c de las referencias Cap y Floor; el tope del gap como GapCap, por zona y familia, opcional (A94).</li><li><b>CAL-01-05</b> — Registro de precio manual con vigencia propia, aplicado después de la resolución de fuentes (energy-008 §3).</li><li><b>CAL-01-05</b> — Approval Process que dispara al cargarlo (lámina 61): un paso a la cola de nivel 1; quién, cuándo y motivo (especificación de accesos §6.1).</li><li><b>CAL-01-06</b> — El alcance del recálculo como parámetro (un anillo); reporte obligatorio de las violaciones que queden.</li></ul></details>
+    <p><b>Abierto para refinamiento:</b> 5 de 6 historias.</p>
+  </div>
+</div>
+  
+<div class='st' id='CAL-01-01' data-dom='CAL' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#9050E9'>CAL-01-01</span>
+    <span class='sum'>El motor arma la propuesta</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_TOBE_Tactica</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que el motor arme la propuesta sin que yo copie la planilla,<br>para que deje de formar el PSS en Excel (FR-19).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una novedad y la corrida anterior</div><div><b>Cuando</b> el analista inicia un movimiento</div><div><b>Entonces</b> el motor prepara la lista de trabajo con los datos del día, sin que el analista copie nada</div></div><div class='sc'><div><b>Dado</b> la lista preparada</div><div><b>Cuando</b> el motor la procesa</div><div><b>Entonces</b> arma la propuesta por zona y familia, marcando lo que cambia</div></div><div class='sc'><div><b>Dado</b> la propuesta</div><div><b>Cuando</b> el analista la revisa</div><div><b>Entonces</b> elegir zona y familia, cargar excepciones y vetar siguen siendo decisiones suyas</div></div><div class='sc'><div><b>Dado</b> la propuesta guardada</div><div><b>Cuando</b> todavía no está aprobada</div><div><b>Entonces</b> queda como propuesta: no se publica ni genera archivo (FR-24)</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] La worklist como superficie de invocación, con list views por zona y familia.</li><li>[Configuration] Definición DPE para preparar la lista de trabajo (lámina 17). El cálculo no corre en DPE: corre en BRE por lote (CAL-02-02).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>La licencia de runtime de DPE sigue sin relevar.</li><li>D29 — si las heurísticas del analista se automatizan o quedan como asistencia.</li></ul>
+  </div>
+</div>
+<div class='st' id='CAL-01-02' data-dom='CAL' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#9050E9'>CAL-01-02</span>
+    <span class='sum'>El algoritmo de la táctica, en orden fijo</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: System · Reuso: Primary · Flujo: PAE_TOBE_Tactica</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que el algoritmo posicione contra cada referencia —con mayor, menor o promedio cuando un rol tiene varias estaciones—, aplique el tope blando, redondee y deje el piso del marker al final,<br>para que el orden de evaluación no dependa de quién corre (FR-13).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una zona y una familia con sus referencias</div><div><b>Cuando</b> el motor calcula</div><div><b>Entonces</b> primero se para a la diferencia de cada referencia, combinando las estaciones de un mismo rol con el criterio que eligió la zona</div></div><div class='sc'><div><b>Dado</b> un tope</div><div><b>Cuando</b> el resultado lo supera</div><div><b>Entonces</b> el tope acota, pero no de forma estricta: el redondeo puede romperlo</div></div><div class='sc'><div><b>Dado</b> el resultado</div><div><b>Cuando</b> se redondea</div><div><b>Entonces</b> se aplica la regla única de PAR-01-04</div></div><div class='sc'><div><b>Dado</b> el marker</div><div><b>Cuando</b> el resultado redondeado quedaría por debajo</div><div><b>Entonces</b> el precio se queda en el marker: el piso del marker gana al redondeo y al tope</div></div><div class='sc'><div><b>Dado</b> los mismos datos</div><div><b>Cuando</b> el cálculo corre dos veces, o lo corre otro analista</div><div><b>Entonces</b> da el mismo precio</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Expression Set con el orden de energy-020 §5: posición → tope blando → redondeo → piso duro del marker (MAX).</li><li>[Configuration] El precio sugerido entra como variable de entrada, resuelto por consulta en el job; no por Decision Table (energy-020 §4).</li><li>[Configuration] Operador mayor / menor / promedio por zona dentro de cada rol, también para el tope (A76, 22/09).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A76 — qué posición cede cuando el marker y el tope no se pueden cumplir a la vez. Sin regla, el motor satisface una y descarta la otra sin avisar. Propuesta: una historia que marque el conflicto para decisión humana. Hoy está como riesgo del story map; pasarla a historia es decisión de Antonio.</li><li>Dónde vive el operador mayor / menor / promedio (ver PAR-01-03).</li></ul>
+  </div>
+</div>
+<div class='st' id='CAL-01-03' data-dom='CAL' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#9050E9'>CAL-01-03</span>
+    <span class='sum'>Las modalidades de cambio, con redondeo en todas</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Derived from CAL-01-02 · cross-pattern · Flujo: PAE_TOBE_Tactica</p>
+    <p class='us'>Como analista de Pricing,<br>quiero la diferencia porcentual y el movimiento plano —con el valor fijo modelado— y redondeo en todas,<br>para que ninguna modalidad deje un precio sin terminar (FR-20).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> la diferencia porcentual, que es como se maneja el mercado hoy</div><div><b>Cuando</b> el analista la elige</div><div><b>Entonces</b> el precio se para a un porcentaje de cada referencia</div></div><div class='sc'><div><b>Dado</b> un cambio de impuestos que obliga a salir antes de saber cuánto movió la competencia</div><div><b>Cuando</b> el analista elige movimiento plano</div><div><b>Entonces</b> el precio se mueve sobre el precio propio, sin mirar ninguna referencia</div><div><b>Y</b> prevalece sobre las otras modalidades</div></div><div class='sc'><div><b>Dado</b> un movimiento plano</div><div><b>Cuando</b> se calcula</div><div><b>Entonces</b> también redondea, y es alcance nuevo: hoy la planilla no lo hace</div><div><b>Y</b> no pasa por posición, tope ni piso</div></div><div class='sc'><div><b>Dado</b> la diferencia de valor fijo</div><div><b>Cuando</b> se configure</div><div><b>Entonces</b> el motor la admite, porque la unidad de la diferencia es un campo</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] La modalidad como parámetro de la política; GapUnit__c admite porcentaje o importe; redondeo en todas.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A69 — si la diferencia de valor fijo entra al alcance inicial. energy-020 §6 la deja fuera, porque las modalidades relevadas son porcentuales.</li></ul>
+  </div>
+</div>
+<div class='st' id='CAL-01-04' data-dom='CAL' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#9050E9'>CAL-01-04</span>
+    <span class='sum'>El X10, entre tres referencias</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Derived from CAL-01-02 · product-family variant · Flujo: PAE_TOBE_Tactica</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que el X10 se posicione contra el X10 de la competencia, acotado por el grado 3 arriba y el grado 2 abajo y sin segunda bandera,<br>para que su regla propia no se modele como excepción manual (FR-13).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> la posición del X10 contra su referencia</div><div><b>Cuando</b> el motor la calcula</div><div><b>Entonces</b> el precio es esa posición, pero nunca más alto que el tope del gap de la zona, que la centena anterior al grado 3 de la competencia, ni que 2 % por debajo del grado 3</div></div><div class='sc'><div><b>Dado</b> el grado 2 de la competencia</div><div><b>Cuando</b> el precio quedaría cerca de él</div><div><b>Entonces</b> nunca queda por debajo del grado 2 más 3 %</div></div><div class='sc'><div><b>Dado</b> el caso relevado: X10 de la competencia 2168, grado 3 en 2245, calculado 2209</div><div><b>Cuando</b> se aplica la regla</div><div><b>Entonces</b> el precio baja a 2199, porque 2209 cae en la misma centena que el grado 3 y ahí se pierden ventas</div></div><div class='sc'><div><b>Dado</b> una zona y familia sin tope del gap</div><div><b>Cuando</b> se calcula</div><div><b>Entonces</b> ese límite simplemente no aplica</div></div><div class='sc'><div><b>Dado</b> el X10</div><div><b>Cuando</b> se cargan sus referencias</div><div><b>Entonces</b> no tiene segunda bandera</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Expression Set del X10 como mínimo de cuatro candidatos, con piso y techo (energy-020 §2).</li><li>[Configuration] El −2 % y el 3 % en Premium__c de las referencias Cap y Floor; el tope del gap como GapCap, por zona y familia, opcional (A94).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>Dónde entran el grado 2 y el grado 3 respecto del redondeo: no está relevado, y el caso relevado da lo mismo en los dos órdenes (energy-020 §5).</li></ul>
+  </div>
+</div>
+<div class='st' id='CAL-01-05' data-dom='CAL' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#9050E9'>CAL-01-05</span>
+    <span class='sum'>Precio manual con su circuito</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_Rutina_Worklist</p>
+    <p class='us'>Como analista de Pricing,<br>quiero cargar un precio manual que se aplique después de las cuatro fuentes, con vigencia propia y su circuito de aprobación,<br>para que la excepción quede registrada con quién, cuándo y por qué (FR-21).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un precio manual, incluida la foto de la fuerza de ventas</div><div><b>Cuando</b> el analista lo carga</div><div><b>Entonces</b> se aplica después de las cuatro fuentes y no compite por recencia</div></div><div class='sc'><div><b>Dado</b> un precio manual cargado</div><div><b>Cuando</b> se guarda</div><div><b>Entonces</b> dispara el circuito de aprobación, como cualquier dato que carga una persona</div></div><div class='sc'><div><b>Dado</b> su vigencia</div><div><b>Cuando</b> vence</div><div><b>Entonces</b> la zona vuelve a tomar la referencia de las fuentes</div></div><div class='sc'><div><b>Dado</b> un auditor</div><div><b>Cuando</b> consulta el precio</div><div><b>Entonces</b> ve quién cargó el manual, cuándo y por qué</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Registro de precio manual con vigencia propia, aplicado después de la resolución de fuentes (energy-008 §3).</li><li>[Configuration] Approval Process que dispara al cargarlo (lámina 61): un paso a la cola de nivel 1; quién, cuándo y motivo (especificación de accesos §6.1).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>El objeto del precio manual de referencia no está en el diccionario de datos.</li></ul>
+  </div>
+</div>
+<div class='st' id='CAL-01-06' data-dom='CAL' data-open='0' data-code='1'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#9050E9'>CAL-01-06</span>
+    <span class='sum'>Recálculo de un anillo de vecinas</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-con-codigo'>con-codigo</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: System · Reuso: Primary · Flujo: PAE_TOBE_Tactica</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que ajustar una zona recalcule un anillo de vecinas y me reporte lo que siga violando,<br>para que el recálculo termine siempre (FR-19).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un ajuste de precio en una zona</div><div><b>Cuando</b> se aprueba</div><div><b>Entonces</b> el motor recalcula sus vecinas inmediatas, una sola vez</div></div><div class='sc'><div><b>Dado</b> relaciones entre zonas que sigan sin cumplirse después de ese anillo</div><div><b>Cuando</b> termina la corrida</div><div><b>Entonces</b> se reportan para decisión humana, sin disparar otra vuelta</div></div><div class='sc'><div><b>Dado</b> cualquier corrida</div><div><b>Cuando</b> arranca</div><div><b>Entonces</b> termina: no persigue convergencia</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] El alcance del recálculo como parámetro (un anillo); reporte obligatorio de las violaciones que queden.</li><li>[Code] Job de recálculo por propagación — energy-020 §3: el lazo termina por diseño, no por convergencia.</li></ul>
+    <h4>Abierto para refinamiento</h4><p class='muted'>—</p>
+  </div>
+</div>
+</section>
+<section class='ep' data-dom='CAL'>
+  <div class='eh' style='border-left-color:#9050E9'>
+    <span class='ord'>7</span>
+    <span class='key' style='color:#9050E9'>CAL-02</span>
+    <span class='sum'>Build up y recálculo de costos</span>
+    <span class='cnt'>4 historias</span>
+  </div>
+  <p class='ed'>El build up desarma el precio aprobado paso por paso, corre por lote, y se regenera solo cuando cambia un componente.</p>
+  <p class='ep-meta'><b>Plataforma:</b> Salesforce (BRE por lote de hasta 200, Batch Management). · <b>FRs:</b> FR-15, FR-18</p>
+  
+<div class='es'>
+  <button class='eb' onclick='this.nextElementSibling.classList.toggle("on")'>Especificación de la épica ▸</button>
+  <div class='esd'>
+    <p><b>Notas:</b> Paralela a CAL-01. Depende de PAR-03.</p>
+    <p><b>Componentes de plataforma:</b> <span class='lb'>Expression Set (BRE)</span><span class='lb'>Batch Management</span><span class='lb'>Flow</span><span class='lb'>Quick action</span></p>
+    <p><b>Objetos del diseño:</b> <span class='muted'>—</span></p>
+    <p><b>Patrón probado en la PoC:</b> <span class='lb'>PAE_PRC_Probe_CascadeMatrix</span></p>
+    <p><b>Tareas de código (0):</b></p><p>Ninguna: la épica es sólo configuración.</p>
+    <details><summary><b>Tareas de configuración (4)</b></summary><ul><li><b>CAL-02-01</b> — Expression Sets BuildUp_* que devuelven los intermedios; el patrón ya está probado en PAE_PRC_Probe_CascadeMatrix. BRE hace también la aritmética (D33, 21/09).</li><li><b>CAL-02-02</b> — Batch Management con partición de hasta 200; Flow como superficie de invocación (energy-002).</li><li><b>CAL-02-03</b> — Disparador por cambio de componente aprobado.</li><li><b>CAL-02-04</b> — Quick action de simulación: Flow invoca BRE sin lote.</li></ul></details>
+    <p><b>Abierto para refinamiento:</b> 2 de 4 historias.</p>
+  </div>
+</div>
+  
+<div class='st' id='CAL-02-01' data-dom='CAL' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#9050E9'>CAL-02-01</span>
+    <span class='sum'>Build up paso por paso sobre el precio aprobado</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: System · Reuso: Primary · Flujo: PAE_TOBE_BuildUp</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que el build up corra sobre el precio aprobado y devuelva cada intermedio,<br>para que pueda explicar de dónde salió cada centavo (FR-15).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un PSS aprobado</div><div><b>Cuando</b> corre el build up</div><div><b>Entonces</b> desarma el precio hasta el neto —tasa municipal, precio base de cálculo, margen, neto CIF y neto FOB—, con los componentes de esa línea</div></div><div class='sc'><div><b>Dado</b> cualquier paso</div><div><b>Cuando</b> se consulta</div><div><b>Entonces</b> se ve su importe intermedio</div></div><div class='sc'><div><b>Dado</b> un cliente FOB o un cambio de flete</div><div><b>Cuando</b> se calcula</div><div><b>Entonces</b> se resta el flete reconocido, y un cambio de flete mueve sólo el neto FOB</div></div><div class='sc'><div><b>Dado</b> el netback</div><div><b>Cuando</b> se calcula</div><div><b>Entonces</b> corre en paralelo y nunca se factura</div></div><div class='sc'><div><b>Dado</b> un precio de una fecha pasada</div><div><b>Cuando</b> se reconstruye</div><div><b>Entonces</b> da el mismo desglose, con los valores de entonces</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Expression Sets BuildUp_* que devuelven los intermedios; el patrón ya está probado en PAE_PRC_Probe_CascadeMatrix. BRE hace también la aritmética (D33, 21/09).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>La primitiva de componentes (lámina 58).</li><li>A87 — la clase de condición del flete de retail y por qué tabla entra. En el archivo a SAP el flete y el precio viajan juntos, y el error no falla si se intercambian.</li></ul>
+  </div>
+</div>
+<div class='st' id='CAL-02-02' data-dom='CAL' data-open='0' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#9050E9'>CAL-02-02</span>
+    <span class='sum'>El cálculo se invoca por lote</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: System · Reuso: Primary · Flujo: PAE_TOBE_BuildUp</p>
+    <p class='us'>Como System,<br>quiero que el cálculo se invoque por lote de hasta 200 y nunca precio por precio,<br>para que no se agote el cupo del motor sin que ningún test falle (FR-15).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un movimiento que afecta muchas estaciones</div><div><b>Cuando</b> corre el cálculo</div><div><b>Entonces</b> se procesa por lotes de hasta 200, nunca de a un precio</div></div><div class='sc'><div><b>Dado</b> un lote</div><div><b>Cuando</b> se procesa</div><div><b>Entonces</b> consume una sola unidad de cupo del motor</div></div><div class='sc'><div><b>Dado</b> el conjunto de pruebas</div><div><b>Cuando</b> alguien invoca el cálculo por registro</div><div><b>Entonces</b> hay una prueba que falla</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Batch Management con partición de hasta 200; Flow como superficie de invocación (energy-002).</li></ul>
+    <h4>Abierto para refinamiento</h4><p class='muted'>—</p>
+  </div>
+</div>
+<div class='st' id='CAL-02-03' data-dom='CAL' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#9050E9'>CAL-02-03</span>
+    <span class='sum'>Recálculo cuando cambia un componente</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Derived from CAL-02-01 · cross-pattern · Flujo: PAE_TOBE_BuildUp</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que un cambio de componente regenere los netos sin armar táctica nueva,<br>para que no tenga que armar un movimiento de PSS por un cambio de costo (FR-18).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un componente cuyo valor nuevo quedó aprobado</div><div><b>Cuando</b> entra en vigencia</div><div><b>Entonces</b> el motor regenera los netos de las familias afectadas, sin nueva táctica ni nuevo PSS</div></div><div class='sc'><div><b>Dado</b> el recálculo</div><div><b>Cuando</b> termina</div><div><b>Entonces</b> los netos nuevos se publican por el mismo camino que un cambio de PSS</div></div><div class='sc'><div><b>Dado</b> el recálculo</div><div><b>Cuando</b> usa un componente</div><div><b>Entonces</b> usa el valor del intervalo que corresponde</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Disparador por cambio de componente aprobado.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>La primitiva de componentes (lámina 58).</li></ul>
+  </div>
+</div>
+<div class='st' id='CAL-02-04' data-dom='CAL' data-open='0' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#9050E9'>CAL-02-04</span>
+    <span class='sum'>Simulación puntual sin escribir</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Derived from CAL-02-01 · cross-persona · Flujo: PAE_TOBE_BuildUp</p>
+    <p class='us'>Como analista de Pricing,<br>quiero simular puntualmente una estación antes de aprobar,<br>para que vea el impacto sin escribir nada (FR-18).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una estación</div><div><b>Cuando</b> el analista simula antes de aprobar</div><div><b>Entonces</b> ve el precio y el desglose que resultarían</div></div><div class='sc'><div><b>Dado</b> la simulación</div><div><b>Cuando</b> termina</div><div><b>Entonces</b> no deja memoria de cálculo ni publicación</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Quick action de simulación: Flow invoca BRE sin lote.</li></ul>
+    <h4>Abierto para refinamiento</h4><p class='muted'>—</p>
+  </div>
+</div>
+</section>
+<section class='ep' data-dom='GOB'>
+  <div class='eh' style='border-left-color:#DD7A01'>
+    <span class='ord'>8</span>
+    <span class='key' style='color:#DD7A01'>GOB-01</span>
+    <span class='sum'>Aprobación, vigencia y evidencia</span>
+    <span class='cnt'>6 historias</span>
+  </div>
+  <p class='ed'>Aprobación nativa por los dos ejes de la matriz RAE, con motivo, vigencia programada y un registro que se bloquea al aprobarse.</p>
+  <p class='ep-meta'><b>Plataforma:</b> Salesforce (circuito de aprobación nativo). · <b>FRs:</b> FR-22, FR-23, FR-24, FR-25</p>
+  
+<div class='es'>
+  <button class='eb' onclick='this.nextElementSibling.classList.toggle("on")'>Especificación de la épica ▸</button>
+  <div class='esd'>
+    <p><b>Notas:</b> El circuito es un control, no una pantalla (lámina 70). El gate de no publicar sin aprobar se vuelve a probar en SAL-01-04.</p>
+    <p><b>Componentes de plataforma:</b> <span class='lb'>Circuito de aprobación</span><span class='lb'>Flow</span><span class='lb'>Reglas de validación</span><span class='lb'>Colas</span></p>
+    <p><b>Objetos del diseño:</b> <span class='lb'>PricingAreaPumpPrice__c</span></p>
+    <p><b>Propuesto, no está en el diseño —a decidir con Antonio—:</b> <span class='lb lb-prop'>PAE_PRC_AprobacionNivel1</span><span class='lb lb-prop'>PAE_PRC_AprobacionNivel2</span><span class='lb lb-prop'>PAE_PRC_AprobacionNivel3</span><span class='lb lb-prop'>PAE_PRC_Solicitantes</span></p>
+    <p><b>Tareas de código (0):</b></p><p>Ninguna: la épica es sólo configuración.</p>
+    <details><summary><b>Tareas de configuración (12)</b></summary><ul><li><b>GOB-01-01</b> — Ventanas como parámetro; vigencia datetime como atributo de la aprobación; anticipación de hasta cinco días.</li><li><b>GOB-01-01</b> — Estados del precio con los campos de gobierno de energy-007: propuesto, aprobado, programado, vigente, superado y vetado.</li><li><b>GOB-01-02</b> — Approval Process nativo sobre PricingAreaPumpPrice__c con los dos ejes de la matriz RAE: masividad —fila 2.1; 80 % de la red por producto, dato de Pablo Aranda del 16/09— y posición en banda —filas 2.6 a 2.11—. Sin criterio por volumen.</li><li><b>GOB-01-02</b> — Un flujo calcula el nivel antes de enviar, y tres pasos lo leen: nivel 1 → cola PAE_PRC_AprobacionNivel1, nivel 2 → PAE_PRC_AprobacionNivel2, nivel 3 → PAE_PRC_AprobacionNivel3. Remitentes permitidos: el grupo PAE_PRC_Solicitantes. Aprobación desde el móvil.</li><li><b>GOB-01-02</b> — La delegación es el árbol de roles de la misma matriz: no hay un segundo juego de reglas (lámina 70). El aviso a asuntos públicos lo dispara un flujo al aprobar un cambio masivo; no es un paso.</li><li><b>GOB-01-03</b> — Record page de resumen de impacto, usable desde móvil: es la vista resumen de MAE-01-02.</li><li><b>GOB-01-04</b> — Motivo como campo de selección única sobre el registro que se aprueba, más la narrativa en otro campo; tipo de cambio derivado, que ningún automatismo lee; catálogo gobernado.</li><li><b>GOB-01-05</b> — Bloqueo del registro al aprobar; validación de que la aprobación precede a la vigencia; historial de campos con valor anterior y nuevo.</li><li><b>GOB-01-05</b> — Regla de validación: Status__c sólo cambia por el circuito. Es obligatorio y no admite FLS; y como las actualizaciones del circuito no disparan reglas de validación, la regla bloquea al usuario sin bloquear al circuito.</li><li><b>GOB-01-05</b> — Ventana de mantenimiento: un flujo disparado por registro rechaza el paso a Aprobado con un mensaje y avisa al aprobador. La ventana es un registro recurrente —domingos de 10 a 22— que mantiene el configurador, sin despliegue.</li><li><b>GOB-01-05</b> — Segregación: grupos de solicitantes y de aprobación disjuntos, y un flujo que rechaza la aprobación si quien aprueba es quien envió.</li><li><b>GOB-01-06</b> — Rechazo a nivel de solicitud: al rechazar un registro, un flujo rechaza los demás de la misma solicitud.</li></ul></details>
+    <p><b>Abierto para refinamiento:</b> 4 de 6 historias.</p>
+  </div>
+</div>
+  
+<div class='st' id='GOB-01-01' data-dom='GOB' data-open='0' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#DD7A01'>GOB-01-01</span>
+    <span class='sum'>Vigencia programada</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_TOBE_Ciclo_Precio</p>
+    <p class='us'>Como analista de Pricing,<br>quiero programar la vigencia del PSS aprobado con fecha y hora,<br>para que el dealer no vea precio futuro (FR-22).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un PSS aprobado</div><div><b>Cuando</b> el analista programa su vigencia</div><div><b>Entonces</b> elige fecha y hora en una de las ventanas —14:00, 22:00 o 00:00—, hasta cinco días adelante</div></div><div class='sc'><div><b>Dado</b> un PSS que todavía no está aprobado</div><div><b>Cuando</b> se intenta programar</div><div><b>Entonces</b> no se puede: la aprobación precede a la vigencia</div></div><div class='sc'><div><b>Dado</b> un dealer que consulta en eCenter antes de la vigencia</div><div><b>Cuando</b> pide el precio</div><div><b>Entonces</b> no ve el precio futuro</div></div><div class='sc'><div><b>Dado</b> la hora de la vigencia</div><div><b>Cuando</b> llega</div><div><b>Entonces</b> el precio pasa a vigente y el anterior queda superado</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Ventanas como parámetro; vigencia datetime como atributo de la aprobación; anticipación de hasta cinco días.</li><li>[Configuration] Estados del precio con los campos de gobierno de energy-007: propuesto, aprobado, programado, vigente, superado y vetado.</li></ul>
+    <h4>Abierto para refinamiento</h4><p class='muted'>—</p>
+  </div>
+</div>
+<div class='st' id='GOB-01-02' data-dom='GOB' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#DD7A01'>GOB-01-02</span>
+    <span class='sum'>Ruteo por masividad y por banda</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Jefe de Precios · Reuso: Primary · Flujo: PAE_TOBE_Ciclo_Precio</p>
+    <p class='us'>Como Jefe de Precios,<br>quiero que la solicitud rutee por masividad y por posición en la banda,<br>para que el nivel de aprobación no dependa del criterio de quien manda el mail (FR-23).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un cambio que abarca más del umbral de estaciones de la red en algún producto</div><div><b>Cuando</b> se envía a aprobación</div><div><b>Entonces</b> rutea como masivo, y alcanza con que un solo producto cruce el umbral</div><div><b>Y</b> la base del umbral es la cantidad de estaciones, no el volumen</div></div><div class='sc'><div><b>Dado</b> la posición del precio en la banda</div><div><b>Cuando</b> se envía a aprobación</div><div><b>Entonces</b> define el nivel junto con la masividad: los dos ejes conviven</div></div><div class='sc'><div><b>Dado</b> el nivel resuelto</div><div><b>Cuando</b> se rutea</div><div><b>Entonces</b> va al aprobador de ese nivel —Gerente de Precios, Gerente Ejecutivo o VP Comercial / Dirección—, sin escalada manual</div></div><div class='sc'><div><b>Dado</b> un cambio masivo con impacto mediático</div><div><b>Cuando</b> se aprueba</div><div><b>Entonces</b> se avisa a asuntos públicos, y ese aviso no es un paso del circuito ni lo bloquea</div></div><div class='sc'><div><b>Dado</b> la evidencia de una aprobación</div><div><b>Cuando</b> se audita</div><div><b>Entonces</b> no hay mails</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Approval Process nativo sobre PricingAreaPumpPrice__c con los dos ejes de la matriz RAE: masividad —fila 2.1; 80 % de la red por producto, dato de Pablo Aranda del 16/09— y posición en banda —filas 2.6 a 2.11—. Sin criterio por volumen.</li><li>[Configuration] Un flujo calcula el nivel antes de enviar, y tres pasos lo leen: nivel 1 → cola PAE_PRC_AprobacionNivel1, nivel 2 → PAE_PRC_AprobacionNivel2, nivel 3 → PAE_PRC_AprobacionNivel3. Remitentes permitidos: el grupo PAE_PRC_Solicitantes. Aprobación desde el móvil.</li><li>[Configuration] La delegación es el árbol de roles de la misma matriz: no hay un segundo juego de reglas (lámina 70). El aviso a asuntos públicos lo dispara un flujo al aprobar un cambio masivo; no es un paso.</li><li>Detalle: handoff/especificacion-accesos-y-aprobaciones.md §6.2.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>El campo del nivel y el agrupador de la solicitud no están en el diccionario. Sin el agrupador no se puede calcular la masividad, que es de la solicitud y no del registro.</li><li>Si el nivel 3 exige también los anteriores. El BPMN lo dibuja exclusivo; la RAE distingue recomienda, aprueba y endosa.</li></ul>
+  </div>
+</div>
+<div class='st' id='GOB-01-03' data-dom='GOB' data-open='0' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#DD7A01'>GOB-01-03</span>
+    <span class='sum'>Resumen de impacto para la Gerencia</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Gerencia Ejecutiva / BP · Reuso: Derived from GOB-01-02 · cross-persona · Flujo: PAE_TOBE_Ciclo_Precio</p>
+    <p class='us'>Como Gerencia Ejecutiva,<br>quiero ver un resumen de impacto y no el detalle campo por campo,<br>para que pueda aprobar desde el celular (FR-23).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un cambio en aprobación</div><div><b>Cuando</b> lo abre la Gerencia Ejecutiva</div><div><b>Entonces</b> ve el impacto —estaciones, volumen, precio ponderado y margen— y no el detalle campo por campo</div></div><div class='sc'><div><b>Dado</b> el resumen</div><div><b>Cuando</b> se abre desde el celular</div><div><b>Entonces</b> se puede aprobar desde ahí</div></div><div class='sc'><div><b>Dado</b> que hace falta el detalle</div><div><b>Cuando</b> se abre</div><div><b>Entonces</b> son unos 15 registros por zona, no miles (A21, A91)</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Record page de resumen de impacto, usable desde móvil: es la vista resumen de MAE-01-02.</li></ul>
+    <h4>Abierto para refinamiento</h4><p class='muted'>—</p>
+  </div>
+</div>
+<div class='st' id='GOB-01-04' data-dom='GOB' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#DD7A01'>GOB-01-04</span>
+    <span class='sum'>Un motivo por solicitud</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_TOBE_Ciclo_Precio</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que la solicitud lleve un motivo de catálogo más narrativa libre,<br>para que el porqué deje de vivir en mi cabeza (FR-25).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una solicitud de cambio</div><div><b>Cuando</b> el analista la envía</div><div><b>Entonces</b> lleva un solo motivo —el principal— de un catálogo, más un texto libre para lo que el catálogo no cubre</div></div><div class='sc'><div><b>Dado</b> dos cambios de naturaleza distinta el mismo día</div><div><b>Cuando</b> se cargan</div><div><b>Entonces</b> son dos solicitudes, cada una con su motivo y su aprobación</div></div><div class='sc'><div><b>Dado</b> el motivo</div><div><b>Cuando</b> se guarda</div><div><b>Entonces</b> vive en el registro que se aprueba, nunca en el resultado del cálculo</div></div><div class='sc'><div><b>Dado</b> el ruteo</div><div><b>Cuando</b> decide el nivel de aprobación</div><div><b>Entonces</b> no lee el motivo</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Motivo como campo de selección única sobre el registro que se aprueba, más la narrativa en otro campo; tipo de cambio derivado, que ningún automatismo lee; catálogo gobernado.</li><li>No existe un objeto hijo de causas (energy-007, A71).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>ChangeReason__c y su narrativa no están en el diccionario en ningún objeto aprobable, aunque energy-007 los exige en todos.</li></ul>
+  </div>
+</div>
+<div class='st' id='GOB-01-05' data-dom='GOB' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#DD7A01'>GOB-01-05</span>
+    <span class='sum'>Bloqueo al aprobar, y la aprobación antes de la vigencia</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: System · Reuso: Primary · Flujo: PAE_TOBE_Ciclo_Precio</p>
+    <p class='us'>Como auditoría,<br>quiero que el registro quede bloqueado al aprobarse y que la aprobación preceda a la vigencia,<br>para que se cierre el hueco del paso 10 del instructivo (FR-24).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un registro aprobado</div><div><b>Cuando</b> alguien intenta modificarlo</div><div><b>Entonces</b> no puede: queda bloqueado</div></div><div class='sc'><div><b>Dado</b> un precio que no está aprobado</div><div><b>Cuando</b> se intenta programarlo o preparar su salida</div><div><b>Entonces</b> el sistema lo rechaza</div></div><div class='sc'><div><b>Dado</b> un cambio aprobado</div><div><b>Cuando</b> se consulta después</div><div><b>Entonces</b> se ven el valor anterior y el nuevo de cada campo</div></div><div class='sc'><div><b>Dado</b> una ventana de mantenimiento</div><div><b>Cuando</b> está activa</div><div><b>Entonces</b> se bloquea la aprobación, no el acceso</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Bloqueo del registro al aprobar; validación de que la aprobación precede a la vigencia; historial de campos con valor anterior y nuevo.</li><li>[Configuration] Regla de validación: Status__c sólo cambia por el circuito. Es obligatorio y no admite FLS; y como las actualizaciones del circuito no disparan reglas de validación, la regla bloquea al usuario sin bloquear al circuito.</li><li>[Configuration] Ventana de mantenimiento: un flujo disparado por registro rechaza el paso a Aprobado con un mensaje y avisa al aprobador. La ventana es un registro recurrente —domingos de 10 a 22— que mantiene el configurador, sin despliegue.</li><li>[Configuration] Segregación: grupos de solicitantes y de aprobación disjuntos, y un flujo que rechaza la aprobación si quien aprueba es quien envió.</li><li>Detalle: handoff/especificacion-accesos-y-aprobaciones.md §5.3, §6.5 y §6.6.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A92 — qué hacer con el control mensual que busca cambios fuera del circuito: se queda sin insumo, porque ya no hay camino alterno.</li></ul>
+  </div>
+</div>
+<div class='st' id='GOB-01-06' data-dom='GOB' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#DD7A01'>GOB-01-06</span>
+    <span class='sum'>El rechazo es de la solicitud entera</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Jefe de Precios · Reuso: Derived from GOB-01-04 · cross-pattern · Flujo: PAE_TOBE_Ciclo_Precio</p>
+    <p class='us'>Como Jefe de Precios,<br>quiero que el rechazo sea de la solicitud entera y no por componente,<br>para que no quede aprobada la mitad de un cambio (FR-25).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> una solicitud con varios componentes</div><div><b>Cuando</b> el aprobador la rechaza</div><div><b>Entonces</b> se rechaza entera, no un componente</div></div><div class='sc'><div><b>Dado</b> una solicitud rechazada</div><div><b>Cuando</b> el analista la rehace</div><div><b>Entonces</b> la arma de nuevo con los componentes que correspondan y su motivo</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Rechazo a nivel de solicitud: al rechazar un registro, un flujo rechaza los demás de la misma solicitud.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>El agrupador de la solicitud no está en el diccionario. Sin él no se sabe qué registros se rechazan juntos.</li></ul>
+  </div>
+</div>
+</section>
+<section class='ep' data-dom='SAL'>
+  <div class='eh' style='border-left-color:#BA0517'>
+    <span class='ord'>9</span>
+    <span class='key' style='color:#BA0517'>SAL-01</span>
+    <span class='sum'>Materialización y publicación</span>
+    <span class='cnt'>8 historias</span>
+  </div>
+  <p class='ed'>La memoria del cálculo inmutable, la publicación por consumidor, el aviso de lote listo, la conciliación, el evento de comunicación y el corte de historia.</p>
+  <p class='ep-meta'><b>Plataforma:</b> Salesforce (memoria, publicación, eventos) y MuleSoft (retiro del lote y armado de archivos). · <b>FRs:</b> FR-24, FR-26, FR-28, FR-29, FR-30, FR-31, FR-32, FR-33</p>
+  
+<div class='es'>
+  <button class='eb' onclick='this.nextElementSibling.classList.toggle("on")'>Especificación de la épica ▸</button>
+  <div class='esd'>
+    <p><b>Notas:</b> Los archivos MS01, Othos Price, Current Prices Out y Storebook, y el contrato de eCenter, son del entregable de integraciones: acá queda lo que Salesforce garantiza de su lado (lámina 63).</p>
+    <p><b>Componentes de plataforma:</b> <span class='lb'>Platform Event</span><span class='lb'>Reglas de validación</span><span class='lb'>Bulk API</span></p>
+    <p><b>Objetos del diseño:</b> <span class='lb'>IntegrationBatchResult__c</span><span class='lb'>PriceCalculationLine__c</span><span class='lb'>PriceCalculation__c</span><span class='lb'>PricePublication__c</span></p>
+    
+    <p><b>Tareas de código (3):</b></p><ul><li><b>SAL-01-03</b> — Escritor único del lote: materializa la memoria, arma la publicación y emite la señal — energy-018: un solo escritor materializa.</li><li><b>SAL-01-05</b> — Conciliador de enviados contra aceptados — energy-019: el control de verificación exige evidencia construida.</li><li><b>SAL-01-08</b> — Purga física por Bulk API con la regla &quot;superado y fuera de la ventana&quot; — energy-018: la papelera retiene 15 días y sigue contando contra el storage.</li></ul>
+    <details><summary><b>Tareas de configuración (10)</b></summary><ul><li><b>SAL-01-01</b> — PriceCalculation__c y PriceCalculationLine__c de sólo lectura, con la versión del motor (energy-018). Ningún grupo tiene permiso de edición: los escribe el proceso de cálculo.</li><li><b>SAL-01-02</b> — PricePublication__c con PublicationKey__c, ejes anulables y la clase enviada en ConditionClass__c. El estado son hechos fechados: SentAt__c, AcknowledgedAt__c, EffectiveConfirmedAt__c, RejectedAt__c.</li><li><b>SAL-01-02</b> — ValidFrom__c es el filtro que impide que el portal de operadores vea precio futuro.</li><li><b>SAL-01-02</b> — La integración edita sólo el estado del envío. Regla de validación: después de creado, Amount__c, PublicationKey__c, PriceCalculationLineId__c, Consumer__c y ValidFrom__c no cambian. Son obligatorios y no admiten FLS, y la integración edita el objeto (especificación de accesos §5.3).</li><li><b>SAL-01-03</b> — Platform Event de lote listo.</li><li><b>SAL-01-04</b> — Criterio de entrada del lote que excluye todo lo no aprobado.</li><li><b>SAL-01-05</b> — IntegrationBatchResult__c genérico y bidireccional, con los cuatro conteos; reporte de conciliación.</li><li><b>SAL-01-06</b> — Registro y alerta del PBL huérfano, con su tipo en el catálogo de errores.</li><li><b>SAL-01-07</b> — Platform Event de comunicación con audiencia y flag BCP.</li><li><b>SAL-01-08</b> — Parámetro de retención; declaración de doble origen en el reporte.</li></ul></details>
+    <p><b>Abierto para refinamiento:</b> 4 de 8 historias.</p>
+  </div>
+</div>
+  
+<div class='st' id='SAL-01-01' data-dom='SAL' data-open='0' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#BA0517'>SAL-01-01</span>
+    <span class='sum'>La memoria del cálculo es inmutable</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: System · Reuso: Primary · Flujo: PAE_TOBE_BuildUp</p>
+    <p class='us'>Como auditoría,<br>quiero que la memoria del cálculo sea inmutable y lleve la versión del motor,<br>para que se pueda reconstruir un precio de una fecha pasada (FR-30).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un cálculo</div><div><b>Cuando</b> termina</div><div><b>Entonces</b> queda registrado qué se calculó, con qué entradas y con qué versión del motor, con una línea por paso del build up</div></div><div class='sc'><div><b>Dado</b> ese registro</div><div><b>Cuando</b> alguien intenta cambiarlo</div><div><b>Entonces</b> no puede: es el respaldo de auditoría</div></div><div class='sc'><div><b>Dado</b> una regla que se corrige</div><div><b>Cuando</b> hay que saber qué precios recalcular</div><div><b>Entonces</b> la versión del motor lo dice exactamente</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] PriceCalculation__c y PriceCalculationLine__c de sólo lectura, con la versión del motor (energy-018). Ningún grupo tiene permiso de edición: los escribe el proceso de cálculo.</li></ul>
+    <h4>Abierto para refinamiento</h4><p class='muted'>—</p>
+  </div>
+</div>
+<div class='st' id='SAL-01-02' data-dom='SAL' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#BA0517'>SAL-01-02</span>
+    <span class='sum'>Una publicación por consumidor</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: System · Reuso: Primary · Flujo: PAE_TOBE_Ciclo_Precio</p>
+    <p class='us'>Como System,<br>quiero una proyección de publicación por consumidor cuyo estado avance,<br>para que la memoria del cálculo nunca cambie (FR-26).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un precio aprobado</div><div><b>Cuando</b> se publica</div><div><b>Entonces</b> hay una publicación por consumidor, cuyo estado avanza —enviado, acusado, confirmado o rechazado— sin tocar la memoria del cálculo</div></div><div class='sc'><div><b>Dado</b> el mismo lote</div><div><b>Cuando</b> se reenvía</div><div><b>Entonces</b> actualiza en lugar de duplicar: cada fila publicada lleva su propia clave</div></div><div class='sc'><div><b>Dado</b> una publicación</div><div><b>Cuando</b> se consulta</div><div><b>Entonces</b> muestra con qué clase de condición se envió</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] PricePublication__c con PublicationKey__c, ejes anulables y la clase enviada en ConditionClass__c. El estado son hechos fechados: SentAt__c, AcknowledgedAt__c, EffectiveConfirmedAt__c, RejectedAt__c.</li><li>[Configuration] ValidFrom__c es el filtro que impide que el portal de operadores vea precio futuro.</li><li>[Configuration] La integración edita sólo el estado del envío. Regla de validación: después de creado, Amount__c, PublicationKey__c, PriceCalculationLineId__c, Consumer__c y ValidFrom__c no cambian. Son obligatorios y no admiten FLS, y la integración edita el objeto (especificación de accesos §5.3).</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>D20 — cómo se cancela o se revierte un despacho de precios ya emitido.</li></ul>
+  </div>
+</div>
+<div class='st' id='SAL-01-03' data-dom='SAL' data-open='0' data-code='1'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#BA0517'>SAL-01-03</span>
+    <span class='sum'>Aviso de lote listo, y la integración lo retira</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-con-codigo'>con-codigo</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: System · Reuso: Primary · Flujo: PAE_TOBE_Ciclo_Precio</p>
+    <p class='us'>Como System,<br>quiero avisar por evento que el lote está listo y que la integración lo retire,<br>para que Salesforce no empuje archivos (FR-26).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un lote calculado</div><div><b>Cuando</b> se escribe</div><div><b>Entonces</b> lo escribe un solo proceso, que al terminar avisa con el identificador del lote</div><div><b>Y</b> ahí termina la responsabilidad de Salesforce</div></div><div class='sc'><div><b>Dado</b> el aviso</div><div><b>Cuando</b> la integración lo recibe</div><div><b>Entonces</b> retira las filas y arma el archivo de cada destino</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Platform Event de lote listo.</li><li>[Code] Escritor único del lote: materializa la memoria, arma la publicación y emite la señal — energy-018: un solo escritor materializa.</li></ul>
+    <h4>Abierto para refinamiento</h4><p class='muted'>—</p>
+  </div>
+</div>
+<div class='st' id='SAL-01-04' data-dom='SAL' data-open='0' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#BA0517'>SAL-01-04</span>
+    <span class='sum'>No se publica lo que no está aprobado</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: System · Reuso: Derived from GOB-01-05 · cross-pattern · Flujo: PAE_TOBE_Ciclo_Precio</p>
+    <p class='us'>Como System,<br>quiero que no se genere lote ni archivo de un PSS no aprobado,<br>para que el control valga también del lado de la salida (FR-24).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un precio propuesto o vetado</div><div><b>Cuando</b> corre la publicación</div><div><b>Entonces</b> no hay lote ni archivo</div></div><div class='sc'><div><b>Dado</b> un precio aprobado y programado</div><div><b>Cuando</b> entra su ventana</div><div><b>Entonces</b> el control no lo bloquea</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Criterio de entrada del lote que excluye todo lo no aprobado.</li></ul>
+    <h4>Abierto para refinamiento</h4><p class='muted'>—</p>
+  </div>
+</div>
+<div class='st' id='SAL-01-05' data-dom='SAL' data-open='1' data-code='1'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#BA0517'>SAL-01-05</span>
+    <span class='sum'>Resultado del lote y conciliación</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span><span class='lb lb-con-codigo'>con-codigo</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_Proceso_Precios_ASIS_v2</p>
+    <p class='us'>Como analista de Pricing,<br>quiero el resultado del lote con secuencia, integridad y enviados contra aceptados,<br>para que concilie sin pedir un reporte a IT (FR-29, FR-30, FR-31).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un lote enviado</div><div><b>Cuando</b> vuelve su resultado</div><div><b>Entonces</b> el analista ve secuencia, integridad, y enviados contra aceptados y rechazados</div></div><div class='sc'><div><b>Dado</b> un destino con acuse, como Fusion</div><div><b>Cuando</b> llega el acuse</div><div><b>Entonces</b> cierra el lote</div></div><div class='sc'><div><b>Dado</b> SAP, que no tiene acuse</div><div><b>Cuando</b> se controla</div><div><b>Entonces</b> el control es la comparación de conteos más la verificación humana</div></div><div class='sc'><div><b>Dado</b> un archivo de salida rechazado por la integración</div><div><b>Cuando</b> el analista abre el monitor</div><div><b>Entonces</b> lo ve con su tipo de error, y el precio no se impactó</div></div><div class='sc'><div><b>Dado</b> una estación sin zona</div><div><b>Cuando</b> corre el lote</div><div><b>Entonces</b> la diferencia entre lo esperado y lo publicado lo muestra en la corrida</div></div><div class='sc'><div><b>Dado</b> un Trabajo de salida</div><div><b>Cuando</b> el analista lo abre</div><div><b>Entonces</b> puede ver los valores exactos que se enviaron</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] IntegrationBatchResult__c genérico y bidireccional, con los cuatro conteos; reporte de conciliación.</li><li>[Code] Conciliador de enviados contra aceptados — energy-019: el control de verificación exige evidencia construida.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A45 — si el control verifica sólo cantidad o también valor. Hoy el AS-IS concilia cantidad.</li></ul>
+  </div>
+</div>
+<div class='st' id='SAL-01-06' data-dom='SAL' data-open='1' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#BA0517'>SAL-01-06</span>
+    <span class='sum'>PBL huérfano, con constancia</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: System · Reuso: Derived from MAE-01-05 · cross-pattern · Flujo: PAE_Proceso_Precios_ASIS_v2</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que un PBL sin cuenta se rechace con constancia y no en silencio,<br>para que el contrato con eCenter no esconda huecos (FR-28).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un PBL sin relación de operador</div><div><b>Cuando</b> llega o se publica</div><div><b>Entonces</b> queda registrado y alertado</div></div><div class='sc'><div><b>Dado</b> ese PBL</div><div><b>Cuando</b> se procesa</div><div><b>Entonces</b> no se descarta en silencio ni se inventa un Ship-To</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Registro y alerta del PBL huérfano, con su tipo en el catálogo de errores.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>Dueño y formato canónico del PBL en la org compartida. Hoy nadie garantiza su unicidad: el único campo marcado como clave externa no es único (energy-005).</li></ul>
+  </div>
+</div>
+<div class='st' id='SAL-01-07' data-dom='SAL' data-open='0' data-code='0'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#BA0517'>SAL-01-07</span>
+    <span class='sum'>Evento de comunicación</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: System · Reuso: Primary · Flujo: PAE_TOBE_Ciclo_Precio</p>
+    <p class='us'>Como System,<br>quiero emitir el evento de comunicación al quedar el precio vigente, con audiencia y flag de BCP, sin acoplarlo al acuse,<br>para que una ola posterior pueda enviar el aviso sin tocar el motor (FR-33).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un precio que queda aprobado y vigente</div><div><b>Cuando</b> ocurre</div><div><b>Entonces</b> el motor emite el evento con la audiencia —fuerza de ventas, estaciones propias y dealers—, los valores, la vigencia y el indicador de contingencia</div></div><div class='sc'><div><b>Dado</b> el MVP</div><div><b>Cuando</b> existe el evento</div><div><b>Entonces</b> no se envía WhatsApp, reporte ni lista a la fuerza de ventas: el envío es ola posterior</div></div><div class='sc'><div><b>Dado</b> el evento</div><div><b>Cuando</b> se emite</div><div><b>Entonces</b> no espera ningún acuse</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Platform Event de comunicación con audiencia y flag BCP.</li></ul>
+    <h4>Abierto para refinamiento</h4><p class='muted'>—</p>
+  </div>
+</div>
+<div class='st' id='SAL-01-08' data-dom='SAL' data-open='1' data-code='1'>
+  <div class='row' onclick='this.parentNode.classList.toggle("on")'>
+    <span class='key' style='color:#BA0517'>SAL-01-08</span>
+    <span class='sum'>Corte de historia y retención</span>
+    <span class='chips'><span class='lb lb-puntos-en-revision'>puntos-en-revision</span><span class='lb lb-abierto-refinamiento'>abierto-refinamiento</span><span class='lb lb-con-codigo'>con-codigo</span></span>
+    <span class='status'>BACKLOG</span>
+  </div>
+  <div class='det'>
+    <p class='meta'>Persona: Analista de Precios · Reuso: Primary · Flujo: PAE_Proceso_Precios_ASIS_v2</p>
+    <p class='us'>Como analista de Pricing,<br>quiero que todo reporte que cruce el go-live declare sus dos orígenes,<br>para que el motor no finja continuidad (FR-32).</p>
+    <h4>Criterios de aceptación</h4><div class='sc'><div><b>Dado</b> un reporte cuya ventana cruza la salida a producción</div><div><b>Cuando</b> se arma</div><div><b>Entonces</b> declara dos orígenes —el sistema actual y el motor— y no presenta una sola serie</div></div><div class='sc'><div><b>Dado</b> el histórico del sistema actual</div><div><b>Cuando</b> se evalúa</div><div><b>Entonces</b> no se migra</div></div><div class='sc'><div><b>Dado</b> los datos calientes del motor</div><div><b>Cuando</b> superan tres años más el año en curso</div><div><b>Entonces</b> se purgan, sólo si están superados y fuera de la ventana</div></div>
+    <h4>Especificación técnica</h4><ul><li>[Configuration] Parámetro de retención; declaración de doble origen en el reporte.</li><li>[Code] Purga física por Bulk API con la regla &quot;superado y fuera de la ventana&quot; — energy-018: la papelera retiene 15 días y sigue contando contra el storage.</li></ul>
+    <h4>Abierto para refinamiento</h4><ul><li>A73 — hasta cuándo es legible el histórico del sistema actual.</li><li>A62 · D19 — dónde se depositan los históricos que genere el motor.</li><li>A13 · A34 — los requisitos y el inventario de reportes, que están dentro del alcance inicial.</li></ul>
+  </div>
+</div>
+</section></main>
+<script>
+const off=new Set();
+function apply(){const o=document.getElementById('fo').checked,c=document.getElementById('fc').checked;
+document.querySelectorAll('.st').forEach(s=>{const hide=off.has(s.dataset.dom)||(o&&s.dataset.open!=='1')||(c&&s.dataset.code!=='1');s.style.display=hide?'none':''});
+document.querySelectorAll('.ep').forEach(e=>{const any=[...e.querySelectorAll('.st')].some(s=>s.style.display!=='none');e.style.display=(off.has(e.dataset.dom)||!any)?'none':''});}
+document.querySelectorAll('.f[data-dom]').forEach(b=>b.onclick=()=>{const d=b.dataset.dom;off.has(d)?off.delete(d):off.add(d);b.classList.toggle('off');apply()});
+document.getElementById('fo').onchange=apply;document.getElementById('fc').onchange=apply;
+function openHash(){const id=decodeURIComponent(location.hash.slice(1));const el=id&&document.getElementById(id);if(el){el.classList.add('on');el.scrollIntoView({block:'start'});}}
+window.addEventListener('hashchange',openHash);openHash();
+let all=false;document.getElementById('ex').onclick=()=>{all=!all;document.querySelectorAll('.st,.esd').forEach(s=>s.classList.toggle('on',all))};
+</script></body></html>

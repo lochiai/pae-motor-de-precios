@@ -1,0 +1,379 @@
+<!doctype html><html lang='es'><head><meta charset='utf-8'>
+<meta name='robots' content='noindex,nofollow'>
+<title>Motor de Precios — Story map del MVP</title>
+<style>
+body{font-family:-apple-system,'Salesforce Sans',Segoe UI,Arial,sans-serif;margin:0;background:#f4f6f9;color:#181818}
+header{background:#032D60;color:#fff;padding:16px 28px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+header h1{margin:0;font-size:21px} header p{margin:4px 0 0;opacity:.85;font-size:13px}
+header a{color:#fff;margin-left:auto;font-weight:600}
+.legend{display:flex;gap:18px;padding:12px 28px;flex-wrap:wrap;font-size:13px;align-items:center}
+.legend .sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:5px}
+.board{padding:6px 28px 40px;overflow-x:auto}
+.grid{display:grid;grid-template-columns:repeat(9,210px);gap:12px;min-width:max-content}
+.band{color:#fff;font-weight:700;font-size:13px;text-align:center;border-radius:6px;padding:5px}
+.col{display:flex;flex-direction:column;gap:8px}
+.epic{color:#fff;border-radius:8px;padding:10px;min-height:92px;display:flex;flex-direction:column;gap:3px;box-shadow:0 2px 4px rgba(0,0,0,.15)}
+.ord{background:#fff;color:#032D60;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.eid{font-weight:800;font-family:ui-monospace,Menlo,monospace} .et{font-weight:600;font-size:13.5px;line-height:1.25}
+.ec{font-size:11px;opacity:.9;margin-top:auto}
+.card{display:flex;flex-direction:column;gap:4px;border:2px solid;border-radius:6px;padding:8px;text-decoration:none;color:#181818;box-shadow:0 1px 2px rgba(0,0,0,.12);transform:rotate(-.4deg)}
+.card:nth-child(odd){transform:rotate(.4deg)} .card:hover{transform:scale(1.03);box-shadow:0 4px 10px rgba(0,0,0,.2)}
+.card.der{border-style:dashed}
+.cid{font-weight:800;font-size:12px;font-family:ui-monospace,Menlo,monospace} .ct{font-size:13px;line-height:1.25}
+.cp{font-size:11px;color:#555} .bds{display:flex;gap:4px}
+.bd{font-size:10px;border-radius:3px;padding:1px 5px;font-weight:700} .bo{background:#fef1c7} .bc{background:#d9c5fb}
+</style></head><body>
+<header><div><h1>Motor de Precios — Story map del MVP (reemplazo de RAMP)</h1>
+<p>45 historias · 9 épicas en orden de construcción · 5 dominios · 13 derivadas de otra · 5 con código · 33 con algo abierto · corte 24/09/2026</p></div>
+<a href='backlog-motor-de-precios.html'>Ver el backlog con el detalle →</a></header>
+<div class='legend'>
+<span><span class='sw' style='background:#fff;border:2px solid #555'></span>Historia Primary: primera de su patrón</span>
+<span><span class='sw' style='background:#fff;border:2px dashed #555'></span>Derived: reusa otra (↳)</span>
+<span><span class='bd bo'>abierto</span> algo se decide al refinar</span>
+<span><span class='bd bc'>código</span> tiene una tarea de código</span>
+<span>El número de cada épica es su orden de construcción · un clic en una tarjeta abre la historia</span>
+</div>
+<div class='board'><div class='grid'><div class='band' style='grid-column:span 2;background:#0176D3'>MAE · Maestros</div><div class='band' style='grid-column:span 3;background:#2E844A'>PAR · Parámetros</div><div class='band' style='grid-column:span 2;background:#9050E9'>CAL · Cálculo</div><div class='band' style='grid-column:span 1;background:#DD7A01'>GOB · Gobierno</div><div class='band' style='grid-column:span 1;background:#BA0517'>SAL · Salida</div>
+<div class='col'>
+  <div class='epic' style='background:#0176D3'>
+    <span class='ord'>1</span><span class='eid'>MAE-01</span>
+    <span class='et'>Identidad, visibilidad y maestro vivo</span>
+    <span class='ec'>8 historias</span>
+  </div>
+  
+<a class='card' href='backlog-motor-de-precios.html#MAE-01-01' style='background:#D8E6FE;border-color:#0176D3' title='Primary · PAE_TOBE_Ciclo_Precio'>
+  <span class='cid' style='color:#0176D3'>MAE-01-01</span>
+  <span class='ct'>Identidad de aprobadores RAE</span>
+  <span class='cp'>Jefe de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#MAE-01-02' style='background:#D8E6FE;border-color:#0176D3' title='Primary · PAE_TOBE_Ciclo_Precio'>
+  <span class='cid' style='color:#0176D3'>MAE-01-02</span>
+  <span class='ct'>Visibilidad del precio</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#MAE-01-03' style='background:#D8E6FE;border-color:#0176D3' title='Primary · PAE_Proceso_Precios_ASIS_v2'>
+  <span class='cid' style='color:#0176D3'>MAE-01-03</span>
+  <span class='ct'>Aterrizaje del maestro con la sucesión fechada</span>
+  <span class='cp'>System</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#MAE-01-04' style='background:#D8E6FE;border-color:#0176D3' title='Primary · PAE_Proceso_Precios_ASIS_v2'>
+  <span class='cid' style='color:#0176D3'>MAE-01-04</span>
+  <span class='ct'>Corrida de interfaz como Trabajo, a primera hora</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'></span>
+</a>
+<a class='card der' href='backlog-motor-de-precios.html#MAE-01-05' style='background:#D8E6FE;border-color:#0176D3' title='Derived from MAE-01-03 · PAE_Proceso_Precios_ASIS_v2'>
+  <span class='cid' style='color:#0176D3'>MAE-01-05</span>
+  <span class='ct'>Ingesta de deltas IN04 / IN05</span>
+  <span class='cp'>System · ↳ MAE-01-03</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card der' href='backlog-motor-de-precios.html#MAE-01-06' style='background:#D8E6FE;border-color:#0176D3' title='Derived from MAE-01-03 · PAE_Proceso_Precios_ASIS_v2'>
+  <span class='cid' style='color:#0176D3'>MAE-01-06</span>
+  <span class='ct'>Tipo de operación derivado</span>
+  <span class='cp'>Analista de Precios · ↳ MAE-01-03</span>
+  <span class='bds'></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#MAE-01-07' style='background:#D8E6FE;border-color:#0176D3' title='Primary · PAE_TOBE_BuildUp'>
+  <span class='cid' style='color:#0176D3'>MAE-01-07</span>
+  <span class='ct'>Tabla municipal de Pricing</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#MAE-01-08' style='background:#D8E6FE;border-color:#0176D3' title='Primary · PAE_TOBE_BuildUp'>
+  <span class='cid' style='color:#0176D3'>MAE-01-08</span>
+  <span class='ct'>Aprobación del ABM impositivo por Impuestos</span>
+  <span class='cp'>Impuestos</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+</div>
+<div class='col'>
+  <div class='epic' style='background:#0176D3'>
+    <span class='ord'>2</span><span class='eid'>MAE-02</span>
+    <span class='et'>Catálogo de productos</span>
+    <span class='ec'>2 historias</span>
+  </div>
+  
+<a class='card' href='backlog-motor-de-precios.html#MAE-02-01' style='background:#D8E6FE;border-color:#0176D3' title='Primary · PAE_TOBE_Tactica'>
+  <span class='cid' style='color:#0176D3'>MAE-02-01</span>
+  <span class='ct'>Familia y SKU sobre el árbol corporativo</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card der' href='backlog-motor-de-precios.html#MAE-02-02' style='background:#D8E6FE;border-color:#0176D3' title='Derived from MAE-02-01 · PAE_TOBE_Tactica'>
+  <span class='cid' style='color:#0176D3'>MAE-02-02</span>
+  <span class='ct'>Puerta abierta a Lubes y B2B, sin operarlos</span>
+  <span class='cp'>Configurador · ↳ MAE-02-01</span>
+  <span class='bds'></span>
+</a>
+</div>
+<div class='col'>
+  <div class='epic' style='background:#2E844A'>
+    <span class='ord'>3</span><span class='eid'>PAR-01</span>
+    <span class='et'>Zonas, políticas y referencias</span>
+    <span class='ec'>5 historias</span>
+  </div>
+  
+<a class='card' href='backlog-motor-de-precios.html#PAR-01-01' style='background:#CDEFC4;border-color:#2E844A' title='Primary · PAE_TOBE_Tactica'>
+  <span class='cid' style='color:#2E844A'>PAR-01-01</span>
+  <span class='ct'>Pertenencia fechada a la zona</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#PAR-01-02' style='background:#CDEFC4;border-color:#2E844A' title='Primary · PAE_TOBE_Tactica'>
+  <span class='cid' style='color:#2E844A'>PAR-01-02</span>
+  <span class='ct'>Política de la zona por familia</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#PAR-01-03' style='background:#CDEFC4;border-color:#2E844A' title='Primary · PAE_TOBE_Tactica'>
+  <span class='cid' style='color:#2E844A'>PAR-01-03</span>
+  <span class='ct'>Referencias de posicionamiento con rol y diferencia</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#PAR-01-04' style='background:#CDEFC4;border-color:#2E844A' title='Primary · PAE_TOBE_Tactica'>
+  <span class='cid' style='color:#2E844A'>PAR-01-04</span>
+  <span class='ct'>Una sola regla de redondeo gobernada</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#PAR-01-05' style='background:#CDEFC4;border-color:#2E844A' title='Primary · PAE_TOBE_Ciclo_Precio'>
+  <span class='cid' style='color:#2E844A'>PAR-01-05</span>
+  <span class='ct'>Bandas de posición por canal y producto</span>
+  <span class='cp'>Jefe de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+</div>
+<div class='col'>
+  <div class='epic' style='background:#2E844A'>
+    <span class='ord'>4</span><span class='eid'>PAR-03</span>
+    <span class='et'>Estructura del build up</span>
+    <span class='ec'>3 historias</span>
+  </div>
+  
+<a class='card' href='backlog-motor-de-precios.html#PAR-03-01' style='background:#CDEFC4;border-color:#2E844A' title='Primary · PAE_TOBE_BuildUp'>
+  <span class='cid' style='color:#2E844A'>PAR-03-01</span>
+  <span class='ct'>La cascada como pasos ordenados</span>
+  <span class='cp'>Configurador</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#PAR-03-02' style='background:#CDEFC4;border-color:#2E844A' title='Primary · PAE_TOBE_BuildUp'>
+  <span class='cid' style='color:#2E844A'>PAR-03-02</span>
+  <span class='ct'>El valor de cada componente, por ejes y con vigencia</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card der' href='backlog-motor-de-precios.html#PAR-03-03' style='background:#CDEFC4;border-color:#2E844A' title='Derived from PAR-03-02 · PAE_TOBE_BuildUp'>
+  <span class='cid' style='color:#2E844A'>PAR-03-03</span>
+  <span class='ct'>Todas las plantas habilitadas</span>
+  <span class='cp'>Analista de Precios · ↳ PAR-03-02</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+</div>
+<div class='col'>
+  <div class='epic' style='background:#2E844A'>
+    <span class='ord'>5</span><span class='eid'>PAR-02</span>
+    <span class='et'>Observatorio de mercado</span>
+    <span class='ec'>3 historias</span>
+  </div>
+  
+<a class='card' href='backlog-motor-de-precios.html#PAR-02-01' style='background:#CDEFC4;border-color:#2E844A' title='Primary · PAE_Rutina_Worklist'>
+  <span class='cid' style='color:#2E844A'>PAR-02-01</span>
+  <span class='ct'>Referencia de competencia resuelta por recencia</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card der' href='backlog-motor-de-precios.html#PAR-02-02' style='background:#CDEFC4;border-color:#2E844A' title='Derived from PAR-02-01 · PAE_Rutina_Worklist'>
+  <span class='cid' style='color:#2E844A'>PAR-02-02</span>
+  <span class='ct'>Consulta del conjunto de observaciones</span>
+  <span class='cp'>Analista de Precios · ↳ PAR-02-01</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#PAR-02-03' style='background:#CDEFC4;border-color:#2E844A' title='Primary · PAE_TOBE_Tactica'>
+  <span class='cid' style='color:#2E844A'>PAR-02-03</span>
+  <span class='ct'>Extrapolación por el árbol geográfico</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span><span class='bd bc'>código</span></span>
+</a>
+</div>
+<div class='col'>
+  <div class='epic' style='background:#9050E9'>
+    <span class='ord'>6</span><span class='eid'>CAL-01</span>
+    <span class='et'>Motor de táctica</span>
+    <span class='ec'>6 historias</span>
+  </div>
+  
+<a class='card' href='backlog-motor-de-precios.html#CAL-01-01' style='background:#E5D6FE;border-color:#9050E9' title='Primary · PAE_TOBE_Tactica'>
+  <span class='cid' style='color:#9050E9'>CAL-01-01</span>
+  <span class='ct'>El motor arma la propuesta</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#CAL-01-02' style='background:#E5D6FE;border-color:#9050E9' title='Primary · PAE_TOBE_Tactica'>
+  <span class='cid' style='color:#9050E9'>CAL-01-02</span>
+  <span class='ct'>El algoritmo de la táctica, en orden fijo</span>
+  <span class='cp'>System</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card der' href='backlog-motor-de-precios.html#CAL-01-03' style='background:#E5D6FE;border-color:#9050E9' title='Derived from CAL-01-02 · PAE_TOBE_Tactica'>
+  <span class='cid' style='color:#9050E9'>CAL-01-03</span>
+  <span class='ct'>Las modalidades de cambio, con redondeo en todas</span>
+  <span class='cp'>Analista de Precios · ↳ CAL-01-02</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card der' href='backlog-motor-de-precios.html#CAL-01-04' style='background:#E5D6FE;border-color:#9050E9' title='Derived from CAL-01-02 · PAE_TOBE_Tactica'>
+  <span class='cid' style='color:#9050E9'>CAL-01-04</span>
+  <span class='ct'>El X10, entre tres referencias</span>
+  <span class='cp'>Analista de Precios · ↳ CAL-01-02</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#CAL-01-05' style='background:#E5D6FE;border-color:#9050E9' title='Primary · PAE_Rutina_Worklist'>
+  <span class='cid' style='color:#9050E9'>CAL-01-05</span>
+  <span class='ct'>Precio manual con su circuito</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#CAL-01-06' style='background:#E5D6FE;border-color:#9050E9' title='Primary · PAE_TOBE_Tactica'>
+  <span class='cid' style='color:#9050E9'>CAL-01-06</span>
+  <span class='ct'>Recálculo de un anillo de vecinas</span>
+  <span class='cp'>System</span>
+  <span class='bds'><span class='bd bc'>código</span></span>
+</a>
+</div>
+<div class='col'>
+  <div class='epic' style='background:#9050E9'>
+    <span class='ord'>7</span><span class='eid'>CAL-02</span>
+    <span class='et'>Build up y recálculo de costos</span>
+    <span class='ec'>4 historias</span>
+  </div>
+  
+<a class='card' href='backlog-motor-de-precios.html#CAL-02-01' style='background:#E5D6FE;border-color:#9050E9' title='Primary · PAE_TOBE_BuildUp'>
+  <span class='cid' style='color:#9050E9'>CAL-02-01</span>
+  <span class='ct'>Build up paso por paso sobre el precio aprobado</span>
+  <span class='cp'>System</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#CAL-02-02' style='background:#E5D6FE;border-color:#9050E9' title='Primary · PAE_TOBE_BuildUp'>
+  <span class='cid' style='color:#9050E9'>CAL-02-02</span>
+  <span class='ct'>El cálculo se invoca por lote</span>
+  <span class='cp'>System</span>
+  <span class='bds'></span>
+</a>
+<a class='card der' href='backlog-motor-de-precios.html#CAL-02-03' style='background:#E5D6FE;border-color:#9050E9' title='Derived from CAL-02-01 · PAE_TOBE_BuildUp'>
+  <span class='cid' style='color:#9050E9'>CAL-02-03</span>
+  <span class='ct'>Recálculo cuando cambia un componente</span>
+  <span class='cp'>Analista de Precios · ↳ CAL-02-01</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card der' href='backlog-motor-de-precios.html#CAL-02-04' style='background:#E5D6FE;border-color:#9050E9' title='Derived from CAL-02-01 · PAE_TOBE_BuildUp'>
+  <span class='cid' style='color:#9050E9'>CAL-02-04</span>
+  <span class='ct'>Simulación puntual sin escribir</span>
+  <span class='cp'>Analista de Precios · ↳ CAL-02-01</span>
+  <span class='bds'></span>
+</a>
+</div>
+<div class='col'>
+  <div class='epic' style='background:#DD7A01'>
+    <span class='ord'>8</span><span class='eid'>GOB-01</span>
+    <span class='et'>Aprobación, vigencia y evidencia</span>
+    <span class='ec'>6 historias</span>
+  </div>
+  
+<a class='card' href='backlog-motor-de-precios.html#GOB-01-01' style='background:#FEDFD0;border-color:#DD7A01' title='Primary · PAE_TOBE_Ciclo_Precio'>
+  <span class='cid' style='color:#DD7A01'>GOB-01-01</span>
+  <span class='ct'>Vigencia programada</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#GOB-01-02' style='background:#FEDFD0;border-color:#DD7A01' title='Primary · PAE_TOBE_Ciclo_Precio'>
+  <span class='cid' style='color:#DD7A01'>GOB-01-02</span>
+  <span class='ct'>Ruteo por masividad y por banda</span>
+  <span class='cp'>Jefe de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card der' href='backlog-motor-de-precios.html#GOB-01-03' style='background:#FEDFD0;border-color:#DD7A01' title='Derived from GOB-01-02 · PAE_TOBE_Ciclo_Precio'>
+  <span class='cid' style='color:#DD7A01'>GOB-01-03</span>
+  <span class='ct'>Resumen de impacto para la Gerencia</span>
+  <span class='cp'>Gerencia Ejecutiva / BP · ↳ GOB-01-02</span>
+  <span class='bds'></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#GOB-01-04' style='background:#FEDFD0;border-color:#DD7A01' title='Primary · PAE_TOBE_Ciclo_Precio'>
+  <span class='cid' style='color:#DD7A01'>GOB-01-04</span>
+  <span class='ct'>Un motivo por solicitud</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#GOB-01-05' style='background:#FEDFD0;border-color:#DD7A01' title='Primary · PAE_TOBE_Ciclo_Precio'>
+  <span class='cid' style='color:#DD7A01'>GOB-01-05</span>
+  <span class='ct'>Bloqueo al aprobar, y la aprobación antes de la vigencia</span>
+  <span class='cp'>System</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card der' href='backlog-motor-de-precios.html#GOB-01-06' style='background:#FEDFD0;border-color:#DD7A01' title='Derived from GOB-01-04 · PAE_TOBE_Ciclo_Precio'>
+  <span class='cid' style='color:#DD7A01'>GOB-01-06</span>
+  <span class='ct'>El rechazo es de la solicitud entera</span>
+  <span class='cp'>Jefe de Precios · ↳ GOB-01-04</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+</div>
+<div class='col'>
+  <div class='epic' style='background:#BA0517'>
+    <span class='ord'>9</span><span class='eid'>SAL-01</span>
+    <span class='et'>Materialización y publicación</span>
+    <span class='ec'>8 historias</span>
+  </div>
+  
+<a class='card' href='backlog-motor-de-precios.html#SAL-01-01' style='background:#FDDDE3;border-color:#BA0517' title='Primary · PAE_TOBE_BuildUp'>
+  <span class='cid' style='color:#BA0517'>SAL-01-01</span>
+  <span class='ct'>La memoria del cálculo es inmutable</span>
+  <span class='cp'>System</span>
+  <span class='bds'></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#SAL-01-02' style='background:#FDDDE3;border-color:#BA0517' title='Primary · PAE_TOBE_Ciclo_Precio'>
+  <span class='cid' style='color:#BA0517'>SAL-01-02</span>
+  <span class='ct'>Una publicación por consumidor</span>
+  <span class='cp'>System</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#SAL-01-03' style='background:#FDDDE3;border-color:#BA0517' title='Primary · PAE_TOBE_Ciclo_Precio'>
+  <span class='cid' style='color:#BA0517'>SAL-01-03</span>
+  <span class='ct'>Aviso de lote listo, y la integración lo retira</span>
+  <span class='cp'>System</span>
+  <span class='bds'><span class='bd bc'>código</span></span>
+</a>
+<a class='card der' href='backlog-motor-de-precios.html#SAL-01-04' style='background:#FDDDE3;border-color:#BA0517' title='Derived from GOB-01-05 · PAE_TOBE_Ciclo_Precio'>
+  <span class='cid' style='color:#BA0517'>SAL-01-04</span>
+  <span class='ct'>No se publica lo que no está aprobado</span>
+  <span class='cp'>System · ↳ GOB-01-05</span>
+  <span class='bds'></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#SAL-01-05' style='background:#FDDDE3;border-color:#BA0517' title='Primary · PAE_Proceso_Precios_ASIS_v2'>
+  <span class='cid' style='color:#BA0517'>SAL-01-05</span>
+  <span class='ct'>Resultado del lote y conciliación</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span><span class='bd bc'>código</span></span>
+</a>
+<a class='card der' href='backlog-motor-de-precios.html#SAL-01-06' style='background:#FDDDE3;border-color:#BA0517' title='Derived from MAE-01-05 · PAE_Proceso_Precios_ASIS_v2'>
+  <span class='cid' style='color:#BA0517'>SAL-01-06</span>
+  <span class='ct'>PBL huérfano, con constancia</span>
+  <span class='cp'>System · ↳ MAE-01-05</span>
+  <span class='bds'><span class='bd bo'>abierto</span></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#SAL-01-07' style='background:#FDDDE3;border-color:#BA0517' title='Primary · PAE_TOBE_Ciclo_Precio'>
+  <span class='cid' style='color:#BA0517'>SAL-01-07</span>
+  <span class='ct'>Evento de comunicación</span>
+  <span class='cp'>System</span>
+  <span class='bds'></span>
+</a>
+<a class='card' href='backlog-motor-de-precios.html#SAL-01-08' style='background:#FDDDE3;border-color:#BA0517' title='Primary · PAE_Proceso_Precios_ASIS_v2'>
+  <span class='cid' style='color:#BA0517'>SAL-01-08</span>
+  <span class='ct'>Corte de historia y retención</span>
+  <span class='cp'>Analista de Precios</span>
+  <span class='bds'><span class='bd bo'>abierto</span><span class='bd bc'>código</span></span>
+</a>
+</div></div></div>
+</body></html>
